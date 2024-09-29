@@ -23,7 +23,7 @@ services:
     depends_on:
       - backend
   database:
-    image: postgres:13
+    image: postgres:16
     environment:
       POSTGRES_PASSWORD: THsF*3858
       POSTGRES_DB: lab1

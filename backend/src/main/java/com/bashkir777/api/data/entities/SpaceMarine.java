@@ -3,6 +3,7 @@ package com.bashkir777.api.data.entities;
 import com.bashkir777.api.data.enums.AstartesCategory;
 import com.bashkir777.api.data.enums.MeleeWeapon;
 import com.bashkir777.api.data.enums.Weapon;
+import com.bashkir777.api.dto.SpaceMarineDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -56,4 +57,25 @@ public class SpaceMarine {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MeleeWeapon meleeWeapon; //Поле не может быть null
+
+    @PrePersist
+    public void prePersist() {
+        this.creationDate = ZonedDateTime.now();
+    }
+
+    public SpaceMarineDTO toDTO() {
+        SpaceMarineDTO dto = new SpaceMarineDTO();
+        dto.setId(this.getId());
+        dto.setName(this.getName());
+        dto.setX(this.getCoordinates().getX());
+        dto.setY(this.getCoordinates().getY());
+        dto.setCreationDate(this.getCreationDate());
+        dto.setChapterName(this.getChapter().getName());
+        dto.setChapterWorld(this.getChapter().getWorld());
+        dto.setHealth(this.getHealth());
+        dto.setCategory(this.getCategory());
+        dto.setWeaponType(this.getWeaponType());
+        dto.setMeleeWeapon(this.getMeleeWeapon());
+        return dto;
+    }
 }

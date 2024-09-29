@@ -1,12 +1,16 @@
 package com.bashkir777.api.data.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "coordinates")
 public class Coordinates {
     @Id
