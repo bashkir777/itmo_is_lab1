@@ -18,4 +18,4 @@ cd itmo_is_lab1
 docker-compose up --build
 ```
 
-### Open `http://localhost` in browser
+__Open `http://localhost` in a browser__
