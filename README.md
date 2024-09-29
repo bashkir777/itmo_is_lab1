@@ -17,5 +17,6 @@ cd itmo_is_lab1
 ```bash
 docker-compose up --build
 ```
+### Open application
 
 __Open `http://localhost` in a browser__
