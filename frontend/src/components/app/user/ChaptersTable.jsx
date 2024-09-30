@@ -1,33 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../../../css/CoordinatesTable.module.css';
+import styles from '../../../css/ChaptersTable.module.css';
 
-const COORDINATES_URL = '/api/v1/coordinates';
+const CHAPTERS_URL = '/api/v1/chapters';
 
-const CoordinatesTable = ({ refresh }) => {
-    const [coordinates, setCoordinates] = useState([]);
+const ChaptersTable = ({ refresh }) => {
+    const [chapters, setChapters] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
 
-    const fetchCoordinates = async (page) => {
+    const fetchChapters = async (page) => {
         setLoading(true);
         try {
-            const response = await fetch(`${COORDINATES_URL}?page=${page}&size=10`);
+            const response = await fetch(`${CHAPTERS_URL}?page=${page}&size=10`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            setCoordinates(data.content);
+            setChapters(data.content);
             setTotalPages(data.totalPages);
         } catch (error) {
-            console.error('Error fetching coordinates:', error);
+            console.error('Error fetching chapters:', error);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchCoordinates(currentPage);
+        fetchChapters(currentPage);
     }, [currentPage, refresh]);
 
     const handlePageChange = (page) => {
@@ -36,25 +36,25 @@ const CoordinatesTable = ({ refresh }) => {
 
     return (
         <div className={styles.tableContainer}>
-            <h2>Coordinates</h2>
+            <h2 className="text-center">Chapters</h2>
             {loading ? (
                 <p>Loading...</p>
             ) : (
                 <>
-                    <table className={styles.coordinatesTable}>
+                    <table className={styles.chaptersTable}>
                         <thead>
                         <tr>
                             <th className="text-center">ID</th>
-                            <th className="text-center">X</th>
-                            <th className="text-center">Y</th>
+                            <th className="text-center">Name</th>
+                            <th className="text-center">World</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {coordinates.map(coord => (
-                            <tr key={coord.id}>
-                                <td className="text-center">{coord.id}</td>
-                                <td className="text-center">{coord.x}</td>
-                                <td className="text-center">{coord.y}</td>
+                        {chapters.map(chapter => (
+                            <tr key={chapter.id}>
+                                <td className="text-center">{chapter.id}</td>
+                                <td className="text-center">{chapter.name.substring(0, 15) + (chapter.name.length >= 15? "...": '')}</td>
+                                <td className="text-center">{chapter.world.substring(0, 15) +(chapter.world.length >= 15? "...": '')}</td>
                             </tr>
                         ))}
                         </tbody>
@@ -64,7 +64,7 @@ const CoordinatesTable = ({ refresh }) => {
                             <button
                                 key={page}
                                 onClick={() => handlePageChange(page)}
-                                className={currentPage === page ? styles.active : ''}
+                                className={`${currentPage === page ? styles.active : ''}`}
                                 style={{borderRadius: '6px'}}
                             >
                                 {page + 1}
@@ -77,4 +77,4 @@ const CoordinatesTable = ({ refresh }) => {
     );
 };
 
-export default CoordinatesTable;
+export default ChaptersTable;

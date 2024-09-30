@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import SpaceMarineForm from "../user/SpaceMarineForm";
 import CoordinatesTable from "../user/CoordinatesTable";
+import ChaptersTable from "../user/ChaptersTable";
 
 const CreateSpaceMarinePage = () => {
-    const [refreshCoordinates, setRefreshCoordinates] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
     const backgroundImageUrl = 'url(/img/sea.jpg)';
 
@@ -18,15 +19,15 @@ const CreateSpaceMarinePage = () => {
     };
 
     const handleRefreshCoordinates = () => {
-        setRefreshCoordinates(!refreshCoordinates);
+        setRefresh(!refresh);
     };
 
     return (
         <>
             <div style={backgroundStyle}>
-
+                <ChaptersTable refresh={refresh}/>
                 <SpaceMarineForm onSuccess={handleRefreshCoordinates} />
-                <CoordinatesTable refresh={refreshCoordinates} />
+                <CoordinatesTable refresh={refresh} />
             </div>
         </>
     );
