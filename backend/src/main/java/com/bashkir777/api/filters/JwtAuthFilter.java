@@ -2,7 +2,7 @@ package com.bashkir777.api.filters;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.bashkir777.api.configuration.SecurityConfig;
+import com.bashkir777.api.configuration.security.SecurityConfig;
 import com.bashkir777.api.services.JwtService;
 import com.bashkir777.api.services.enums.TokenType;
 import jakarta.servlet.FilterChain;

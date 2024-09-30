@@ -1,4 +1,4 @@
-package com.bashkir777.api.configuration;
+package com.bashkir777.api.configuration.security;
 
 import com.bashkir777.api.filters.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
