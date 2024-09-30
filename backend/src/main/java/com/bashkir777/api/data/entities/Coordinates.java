@@ -1,5 +1,6 @@
 package com.bashkir777.api.data.entities;
 
+import com.bashkir777.api.dto.CoordinatesDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -23,4 +24,11 @@ public class Coordinates {
     @Min(value = -954, message = "Y must be greater than -954")
     @Column(nullable = false)
     private double y; //Значение поля должно быть больше -954
+
+    public CoordinatesDTO toDTO() {
+        return CoordinatesDTO.builder().
+                id(this.getId()).
+                x(this.getX()).
+                y(this.getY()).build();
+    }
 }

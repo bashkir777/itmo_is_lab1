@@ -26,7 +26,7 @@ public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private CorsConfigurationSource configurationSource;
     public static final List<String> openUris = List.of("/api/v1/auth/**"
-            , "/api/v1/info/**");
+            , "/api/v1/coordinates/**");
 
     @Autowired
     @Qualifier("allowAll")

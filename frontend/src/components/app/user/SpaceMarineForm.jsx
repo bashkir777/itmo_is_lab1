@@ -4,7 +4,7 @@ import styles from '../../../css/SpaceMarineForm.module.css';
 import { useDispatch } from "react-redux";
 import { setError, setErrorMessage, setSuccess, setSuccessMessage } from "../../../redux/actions";
 
-const SpaceMarineForm = () => {
+const SpaceMarineForm = ({ onSuccess }) => {
 
     const dispatch = useDispatch();
 
@@ -103,8 +103,8 @@ const SpaceMarineForm = () => {
                 dispatch(setSuccess(true));
                 dispatch(setSuccessMessage('SpaceMarine created successfully!'));
 
-                // Очистка формы после успешного создания
                 resetForm();
+                onSuccess();
             } catch (error) {
                 dispatch(setError(true));
                 dispatch(setErrorMessage("Error creating SpaceMarine. Please, try again later"));
@@ -130,20 +130,7 @@ const SpaceMarineForm = () => {
         setUseExistingChapter(false);
         setUseExistingCoordinate(false);
     };
-
-    const backgroundImageUrl = 'url(/img/sea.jpg)';
-
-    const isPhone = window.innerWidth < 768;
-    const backgroundStyle = {
-        backgroundImage: backgroundImageUrl,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: isPhone ? '96vh' : '95vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    };
-
+    
     const resetCoordinateErrors = () => {
         setErrors(prev => ({ ...prev, x: '', y: '', existingCoordinateId: '' }));
     };
@@ -153,7 +140,7 @@ const SpaceMarineForm = () => {
     };
 
     return (
-        <div className={styles.formContainer} style={backgroundStyle}>
+        <div className={styles.formContainer} >
             <form onSubmit={handleSubmit} className={styles.spaceMarineForm}>
                 <h2>Create SpaceMarine</h2>
                 <div className={styles.formGrid}>

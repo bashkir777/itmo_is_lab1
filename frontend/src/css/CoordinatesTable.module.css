@@ -1,0 +1,39 @@
+.tableContainer {
+    margin: 20px;
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+}
+
+.coordinatesTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.coordinatesTable th,
+.coordinatesTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.coordinatesTable th {
+    background-color: #f2f2f2;
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+}

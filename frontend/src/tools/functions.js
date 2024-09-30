@@ -1,6 +1,5 @@
 
 import { REFRESH_URL } from "./consts";
-import {setError, setErrorMessage} from "../redux/actions";
 
 
 export const asyncPostRequest = async (body, URL) => fetch(URL, {

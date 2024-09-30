@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 
 import AuthenticationProvider from "../../auth/providers/AuthenticationProvider";
 import {Pages} from "../../../tools/consts";
-import SpaceMarineForm from "../user/SpaceMarineForm";
 import Navbar from "../user/Navbar";
 import Logout from "../../auth/forms/Logout";
 import {useSelector} from "react-redux";
 import {selectAuthenticated} from "../../../redux/selectors";
+import CreateSpaceMarinePage from "./CreateSpaceMarinePage";
 
 
 const UserPage = () => {
@@ -29,7 +29,7 @@ const UserPage = () => {
             }
 
             {
-                page === Pages.CreateSpaceMarine && <SpaceMarineForm/>
+                page === Pages.CreateSpaceMarine && <CreateSpaceMarinePage/>
             }
 
         </>
