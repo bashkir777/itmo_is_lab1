@@ -73,3 +73,7 @@
 .submitButton:hover {
     background-color: #0056b3;
 }
+.centeredItem{
+    grid-row: 3;
+    grid-column: 2;
+}

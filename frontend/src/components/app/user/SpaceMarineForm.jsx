@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { SPACE_MARINES_URL } from "../../../tools/consts";
 import styles from '../../../css/SpaceMarineForm.module.css';
+import { useDispatch } from "react-redux";
+import { setError, setErrorMessage, setSuccess, setSuccessMessage } from "../../../redux/actions";
 
 const SpaceMarineForm = () => {
+
+    const dispatch = useDispatch();
+
     const [formData, setFormData] = useState({
         name: '',
         x: '',
@@ -13,9 +18,16 @@ const SpaceMarineForm = () => {
         category: '',
         weaponType: '',
         meleeWeapon: '',
+        existingChapterId: '',
+        existingCoordinateId: '',
     });
 
+    const accessToken = localStorage.getItem('accessToken');
+
     const [errors, setErrors] = useState({});
+
+    const [useExistingChapter, setUseExistingChapter] = useState(false);
+    const [useExistingCoordinate, setUseExistingCoordinate] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,17 +35,41 @@ const SpaceMarineForm = () => {
             ...formData,
             [name]: value,
         });
+
+        // Очистка полей в зависимости от выбора
+        if (name === 'x' || name === 'y') {
+            setFormData(prev => ({ ...prev, existingCoordinateId: '' }));
+        }
+        if (name === 'chapterName' || name === 'chapterWorld') {
+            setFormData(prev => ({ ...prev, existingChapterId: '' }));
+        }
+        if (name === 'existingCoordinateId') {
+            setFormData(prev => ({ ...prev, x: '', y: '' }));
+        }
+        if (name === 'existingChapterId') {
+            setFormData(prev => ({ ...prev, chapterName: '', chapterWorld: '' }));
+        }
     };
 
     const validateForm = () => {
         const newErrors = {};
 
         if (!formData.name) newErrors.name = 'Name is required';
-        if (!formData.x) newErrors.x = 'X coordinate is required';
-        if (!formData.y) newErrors.y = 'Y coordinate is required';
-        if (formData.y <= -954) newErrors.y = 'Y must be greater than -954';
-        if (!formData.chapterName) newErrors.chapterName = 'Chapter name is required';
-        if (!formData.chapterWorld) newErrors.chapterWorld = 'Chapter world is required';
+        if (!useExistingCoordinate) {
+            if (!formData.x) newErrors.x = 'X coordinate is required';
+            if (!formData.y) newErrors.y = 'Y coordinate is required';
+            if (formData.y <= -954) newErrors.y = 'Y must be greater than -954';
+        } else {
+            if (!formData.existingCoordinateId) newErrors.existingCoordinateId = 'Existing coordinate ID is required';
+            if (formData.existingCoordinateId < 1) newErrors.existingCoordinateId = 'Coordinate ID must be greater than 0';
+        }
+        if (!useExistingChapter) {
+            if (!formData.chapterName) newErrors.chapterName = 'Chapter name is required';
+            if (!formData.chapterWorld) newErrors.chapterWorld = 'Chapter world is required';
+        } else {
+            if (!formData.existingChapterId) newErrors.existingChapterId = 'Existing chapter ID is required';
+            if (formData.existingChapterId < 1) newErrors.existingChapterId = 'Chapter ID must be greater than 0';
+        }
         if (!formData.health) newErrors.health = 'Health is required';
         if (formData.health <= 0) newErrors.health = 'Health must be greater than 0';
         if (!formData.category) newErrors.category = 'Category is required';
@@ -53,6 +89,7 @@ const SpaceMarineForm = () => {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
                     },
                     body: JSON.stringify(formData),
                 });
@@ -62,20 +99,43 @@ const SpaceMarineForm = () => {
                 }
 
                 const result = await response.json();
-                console.log('SpaceMarine created:', result);
-                alert('SpaceMarine created successfully!');
+
+                dispatch(setSuccess(true));
+                dispatch(setSuccessMessage('SpaceMarine created successfully!'));
+
+                // Очистка формы после успешного создания
+                resetForm();
             } catch (error) {
-                console.error('Error creating SpaceMarine:', error);
-                alert('Error creating SpaceMarine. Please check the console for details.');
+                dispatch(setError(true));
+                dispatch(setErrorMessage("Error creating SpaceMarine. Please, try again later"));
             }
         }
+    };
+
+    const resetForm = () => {
+        setFormData({
+            name: '',
+            x: '',
+            y: '',
+            chapterName: '',
+            chapterWorld: '',
+            health: '',
+            category: '',
+            weaponType: '',
+            meleeWeapon: '',
+            existingChapterId: '',
+            existingCoordinateId: '',
+        });
+        setErrors({});
+        setUseExistingChapter(false);
+        setUseExistingCoordinate(false);
     };
 
     const backgroundImageUrl = 'url(/img/sea.jpg)';
 
     const isPhone = window.innerWidth < 768;
     const backgroundStyle = {
-        backgroundImage:  backgroundImageUrl,
+        backgroundImage: backgroundImageUrl,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         height: isPhone ? '96vh' : '95vh',
@@ -84,13 +144,21 @@ const SpaceMarineForm = () => {
         justifyContent: 'center'
     };
 
+    const resetCoordinateErrors = () => {
+        setErrors(prev => ({ ...prev, x: '', y: '', existingCoordinateId: '' }));
+    };
+
+    const resetChapterErrors = () => {
+        setErrors(prev => ({ ...prev, chapterName: '', chapterWorld: '', existingChapterId: '' }));
+    };
+
     return (
         <div className={styles.formContainer} style={backgroundStyle}>
             <form onSubmit={handleSubmit} className={styles.spaceMarineForm}>
                 <h2>Create SpaceMarine</h2>
                 <div className={styles.formGrid}>
                     <div className={styles.formGroup}>
-                        <label htmlFor="name">Name</label>
+                        <label className="text-center" htmlFor="name">Name</label>
                         <input
                             id="name"
                             name="name"
@@ -101,53 +169,141 @@ const SpaceMarineForm = () => {
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="x">X Coordinate</label>
-                        <input
-                            id="x"
-                            name="x"
-                            type="number"
-                            value={formData.x}
-                            onChange={handleChange}
-                        />
-                        {errors.x && <p className={styles.error}>{errors.x}</p>}
+                        <div className="mb-2">
+                            <label className="text-center">New Coordinates</label>
+                            <input
+                                type="radio"
+                                name="coordinateOption"
+                                checked={!useExistingCoordinate}
+                                onChange={() => {
+                                    setUseExistingCoordinate(false);
+                                    resetCoordinateErrors();
+                                }}
+                            />
+
+                            <label className="text-center">Existing Coordinate ID</label>
+                            <input
+                                type="radio"
+                                name="coordinateOption"
+                                checked={useExistingCoordinate}
+                                onChange={() => {
+                                    setUseExistingCoordinate(true);
+                                    resetCoordinateErrors();
+                                }}
+                            />
+                        </div>
+                        {!useExistingCoordinate ? (
+                            <>
+                                <div>
+                                    <label className="text-center" htmlFor="x">X coordinate</label>
+                                    <input
+                                        id="x"
+                                        name="x"
+                                        type="number"
+                                        value={formData.x}
+                                        onChange={handleChange}
+                                        placeholder="X Coordinate"
+                                        className="mb-2"
+                                    />
+                                    {errors.x && <p className={styles.error}>{errors.x}</p>}
+                                </div>
+                                <div>
+                                    <label className="text-center" htmlFor="y">Y coordinate</label>
+                                    <input
+                                        id="y"
+                                        name="y"
+                                        type="number"
+                                        value={formData.y}
+                                        onChange={handleChange}
+                                        placeholder="Y Coordinate"
+                                    />
+                                    {errors.y && <p className={styles.error}>{errors.y}</p>}
+                                </div>
+                            </>
+                        ) : (
+                            <div>
+                                <label className="text-center" htmlFor="existingCoordinateId">Existing Coordinate ID</label>
+                                <input
+                                    id="existingCoordinateId"
+                                    name="existingCoordinateId"
+                                    type="number"
+                                    value={formData.existingCoordinateId}
+                                    onChange={handleChange}
+                                    placeholder="Existing Coordinate ID"
+                                />
+                                {errors.existingCoordinateId && <p className={styles.error}>{errors.existingCoordinateId}</p>}
+                            </div>
+                        )}
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="y">Y Coordinate</label>
-                        <input
-                            id="y"
-                            name="y"
-                            type="number"
-                            value={formData.y}
-                            onChange={handleChange}
-                        />
-                        {errors.y && <p className={styles.error}>{errors.y}</p>}
+                        <div className="mb-2">
+                            <label className="text-center">New Chapter</label>
+                            <input
+                                type="radio"
+                                name="chapterOption"
+                                checked={!useExistingChapter}
+                                onChange={() => {
+                                    setUseExistingChapter(false);
+                                    resetChapterErrors();
+                                }}
+                            />
+
+                            <label className="text-center">Existing Chapter ID</label>
+                            <input
+                                type="radio"
+                                name="chapterOption"
+                                checked={useExistingChapter}
+                                onChange={() => {
+                                    setUseExistingChapter(true);
+                                    resetChapterErrors();
+                                }}
+                            />
+                        </div>
+                        {!useExistingChapter ? (
+                            <>
+                                <div>
+                                    <label className="text-center" htmlFor="chapterName">Chapter Name</label>
+                                    <input
+                                        id="chapterName"
+                                        name="chapterName"
+                                        value={formData.chapterName}
+                                        onChange={handleChange}
+                                        placeholder="Chapter Name"
+                                        className="mb-2"
+                                    />
+                                    {errors.chapterName && <p className={styles.error}>{errors.chapterName}</p>}
+                                </div>
+                                <div>
+                                    <label className="text-center" htmlFor="chapterWorld">Chapter World</label>
+                                    <input
+                                        id="chapterWorld"
+                                        name="chapterWorld"
+                                        value={formData.chapterWorld}
+                                        onChange={handleChange}
+                                        placeholder="Chapter World"
+                                    />
+                                    {errors.chapterWorld && <p className={styles.error}>{errors.chapterWorld}</p>}
+                                </div>
+                            </>
+                        ) : (
+                            <div>
+                                <label className="text-center" htmlFor="existingChapterId">Existing Chapter ID </label>
+                                <input
+                                    id="existingChapterId"
+                                    name="existingChapterId"
+                                    type="number"
+                                    value={formData.existingChapterId}
+                                    onChange={handleChange}
+                                    placeholder="Existing Chapter ID"
+                                />
+                                {errors.existingChapterId && <p className={styles.error}>{errors.existingChapterId}</p>}
+                            </div>
+                        )}
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="chapterName">Chapter Name</label>
-                        <input
-                            id="chapterName"
-                            name="chapterName"
-                            value={formData.chapterName}
-                            onChange={handleChange}
-                        />
-                        {errors.chapterName && <p className={styles.error}>{errors.chapterName}</p>}
-                    </div>
-
-                    <div className={styles.formGroup}>
-                        <label htmlFor="chapterWorld">Chapter World</label>
-                        <input
-                            id="chapterWorld"
-                            name="chapterWorld"
-                            value={formData.chapterWorld}
-                            onChange={handleChange}
-                        />
-                        {errors.chapterWorld && <p className={styles.error}>{errors.chapterWorld}</p>}
-                    </div>
-
-                    <div className={styles.formGroup}>
-                        <label htmlFor="health">Health</label>
+                        <label className="text-center" htmlFor="health">Health</label>
                         <input
                             id="health"
                             name="health"
@@ -159,7 +315,7 @@ const SpaceMarineForm = () => {
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="category">Category</label>
+                        <label className="text-center" htmlFor="category">Category</label>
                         <select
                             id="category"
                             name="category"
@@ -177,7 +333,7 @@ const SpaceMarineForm = () => {
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="weaponType">Weapon Type</label>
+                        <label className="text-center" htmlFor="weaponType">Weapon Type</label>
                         <select
                             id="weaponType"
                             name="weaponType"
@@ -192,8 +348,8 @@ const SpaceMarineForm = () => {
                         {errors.weaponType && <p className={styles.error}>{errors.weaponType}</p>}
                     </div>
 
-                    <div className={styles.formGroup}>
-                        <label htmlFor="meleeWeapon">Melee Weapon</label>
+                    <div className={`${styles.formGroup}  ${styles.centeredItem}`}>
+                        <label className="text-center" htmlFor="meleeWeapon">Melee Weapon</label>
                         <select
                             id="meleeWeapon"
                             name="meleeWeapon"

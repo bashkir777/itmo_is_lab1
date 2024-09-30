@@ -4,7 +4,7 @@ import {Authentication} from "../../../tools/consts";
 import LoginForm from "../forms/LoginForm";
 import RegisterForm from "../forms/RegisterForm";
 
-const AuthenticationProvider = () => {
+const AuthenticationProvider = ({setPage}) => {
     const [authentication, setAuthentication] = useState(Authentication.Login);
 
     const backgroundImageUrl = 'url(/img/sea.jpg)';
@@ -24,7 +24,7 @@ const AuthenticationProvider = () => {
     return (
         <span style={backgroundStyle}>
             {authentication === Authentication.Login
-                && <LoginForm setAuthentication={setAuthentication}
+                && <LoginForm setPage={setPage} setAuthentication={setAuthentication}
                 />}
             {authentication === Authentication.Register
                 && <RegisterForm setAuthentication={setAuthentication}

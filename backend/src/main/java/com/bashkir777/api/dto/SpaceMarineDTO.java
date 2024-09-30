@@ -23,20 +23,20 @@ public class SpaceMarineDTO {
     @NotBlank(message = "Name cannot be blank")
     private String name;
 
-    @NotNull(message = "X coordinate cannot be null")
+    @Nullable
     private Long x;
 
+    @Nullable
     @Min(value = -954, message = "Y must be greater than -954")
-    @NotNull(message = "Y coordinate cannot be null")
     private Double y;
 
     @Nullable
     private ZonedDateTime creationDate;
 
-    @NotBlank(message = "Chapter name cannot be blank")
+    @Nullable
     private String chapterName;
 
-    @NotNull(message = "Chapter world cannot be null")
+    @Nullable
     private String chapterWorld;
 
     @Min(value = 1, message = "Health must be greater than 0")
@@ -51,19 +51,41 @@ public class SpaceMarineDTO {
     @NotNull(message = "Melee weapon cannot be null")
     private MeleeWeapon meleeWeapon;
 
-    public SpaceMarine toEntity() {
+    @Nullable
+    private Long existingChapterId;
+
+    @Nullable
+    private Long existingCoordinateId;
+
+    public SpaceMarine toEntity() throws IllegalArgumentException{
         SpaceMarine spaceMarine = new SpaceMarine();
         spaceMarine.setName(this.getName());
 
-        Coordinates coordinates = new Coordinates();
-        coordinates.setX(this.getX());
-        coordinates.setY(this.getY());
-        spaceMarine.setCoordinates(coordinates);
+        if (existingCoordinateId != null) {
+            Coordinates coordinates = new Coordinates();
+            coordinates.setId(existingCoordinateId);
+            spaceMarine.setCoordinates(coordinates);
+        } else if(this.getX() != null && this.getY() != null) {
+            Coordinates coordinates = new Coordinates();
+            coordinates.setX(this.getX());
+            coordinates.setY(this.getY());
+            spaceMarine.setCoordinates(coordinates);
+        }else{
+            throw new IllegalArgumentException("Coordinates cannot be null");
+        }
 
-        Chapter chapter = new Chapter();
-        chapter.setName(this.getChapterName());
-        chapter.setWorld(this.getChapterWorld());
-        spaceMarine.setChapter(chapter);
+        if (existingChapterId != null) {
+            Chapter chapter = new Chapter();
+            chapter.setId(existingChapterId);
+            spaceMarine.setChapter(chapter);
+        } else if (this.getChapterName() != null && this.getChapterWorld() != null) {
+            Chapter chapter = new Chapter();
+            chapter.setName(this.getChapterName());
+            chapter.setWorld(this.getChapterWorld());
+            spaceMarine.setChapter(chapter);
+        }else{
+            throw new IllegalArgumentException("Chapter cannot be null");
+        }
 
         spaceMarine.setHealth(this.getHealth());
         spaceMarine.setCategory(this.getCategory());

@@ -26,7 +26,7 @@ public class SpaceMarine {
     private String name; //Поле не может быть null, Строка не может быть пустой
 
     @NotNull(message = "Coordinates cannot be null")
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "coordinates_id", referencedColumnName = "id", nullable = false)
     private Coordinates coordinates; //Поле не может быть null
 
@@ -35,7 +35,7 @@ public class SpaceMarine {
     private ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
 
     @NotNull(message = "Chapter cannot be null")
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "chapter_id", referencedColumnName = "id", nullable = false)
     private Chapter chapter; //Поле не может быть null
 

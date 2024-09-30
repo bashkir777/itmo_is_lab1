@@ -1,5 +1,5 @@
 import {MDBInput, MDBBtn} from 'mdb-react-ui-kit';
-import {Authentication, LOGIN_URL} from "../../../tools/consts";
+import {Authentication, LOGIN_URL, Pages} from "../../../tools/consts";
 import {
     setAccessToken,
     setAuthenticated,
@@ -11,7 +11,7 @@ import {
 import {useDispatch} from "react-redux";
 import {useState} from "react";
 
-const LoginForm = ({setAuthentication}) => {
+const LoginForm = ({setAuthentication, setPage}) => {
     const dispatch = useDispatch();
     const [userData, setUserData] = useState({
         email: '',
@@ -51,7 +51,7 @@ const LoginForm = ({setAuthentication}) => {
             }
             return response.json();
         }).then(data => {
-            console.log(data.role);
+            setPage(Pages.Account);
             localStorage.setItem("accessToken", data.accessToken);
             localStorage.setItem("refreshToken", data.refreshToken);
             localStorage.setItem("role", data.role);

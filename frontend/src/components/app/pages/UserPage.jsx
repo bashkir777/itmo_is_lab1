@@ -18,7 +18,7 @@ const UserPage = () => {
             <Navbar currentPage={page} setPage={setPage} />
             {
                 page === Pages.Login &&
-                <AuthenticationProvider/>
+                <AuthenticationProvider setPage={setPage}/>
             }
             {
                 page === Pages.Account &&
