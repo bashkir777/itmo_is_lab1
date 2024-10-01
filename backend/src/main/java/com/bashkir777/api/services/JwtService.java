@@ -22,10 +22,10 @@ public class JwtService {
     }
 
 
-    public String createJwt(String email, TokenType tokenType, Role role){
+    public String createJwt(String username, TokenType tokenType, Role role){
         return JWT.create()
                 .withIssuer("auth-service")
-                .withSubject(email)
+                .withSubject(username)
                 .withClaim("role", role.name())
                 .withClaim("type", tokenType.name())
                 .withIssuedAt(new Date())

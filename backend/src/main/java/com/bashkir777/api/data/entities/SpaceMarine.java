@@ -58,6 +58,10 @@ public class SpaceMarine {
     @Column(nullable = false)
     private MeleeWeapon meleeWeapon; //Поле не может быть null
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
+    private User createdBy; // Ссылка на пользователя, создавшего SpaceMarine
+
     @PrePersist
     public void prePersist() {
         this.creationDate = ZonedDateTime.now();
@@ -76,6 +80,7 @@ public class SpaceMarine {
         dto.setCategory(this.getCategory());
         dto.setWeaponType(this.getWeaponType());
         dto.setMeleeWeapon(this.getMeleeWeapon());
+        dto.setCreatedBy(this.getCreatedBy().getUsername());
         return dto;
     }
 }

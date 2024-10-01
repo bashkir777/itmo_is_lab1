@@ -17,7 +17,7 @@
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #3498db; /* Синий цвет для заголовков */
+    background-color: #007bff;
     color: white;
 }
 
@@ -30,24 +30,24 @@
 .pagination button {
     margin: 0 5px;
     padding: 8px 12px;
-    background-color: #3498db; /* Синий цвет для кнопок пагинации */
+    background-color: #59a6fd;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 .pagination button.active {
-    background-color: #2980b9; /* Темно-синий цвет для активной кнопки */
+    background-color: #007bff;
 }
 
 .pagination button:hover:not(.active) {
-    background-color: #2980b9; /* Темно-синий цвет при наведении */
+    background-color: #0b87cd;
 }
 
 .refreshButton {
     margin-bottom: 20px;
     padding: 10px 15px;
-    background-color: #3498db; /* Синий цвет для кнопки обновления */
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 6px;
@@ -55,5 +55,18 @@
 }
 
 .refreshButton:hover {
-    background-color: #2980b9; /* Темно-синий цвет при наведении */
+    background-color: #007bff;
+}
+
+.actionButton {
+    margin: 0 5px;
+    padding: 5px 10px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.actionButton:hover {
+    background-color: #08679c;
 }

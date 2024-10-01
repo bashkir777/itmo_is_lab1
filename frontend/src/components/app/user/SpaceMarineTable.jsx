@@ -39,6 +39,36 @@ const SpaceMarineTable = () => {
         fetchSpaceMarines(currentPage);
     };
 
+    const handleEdit = (id) => {
+        // not implemented yet
+    };
+
+    const handleDelete = async (id) => {
+        // not implemented yet
+    };
+
+    const parseJwt = (token) => {
+        try {
+            return JSON.parse(atob(token.split('.')[1]));
+        } catch (e) {
+            return null;
+        }
+    };
+
+    const getUserInfoFromToken = () => {
+        const token = localStorage.getItem('refreshToken');
+        if (token) {
+            const decodedToken = parseJwt(token);
+            return {
+                username: decodedToken.sub,
+                role: decodedToken.role
+            };
+        }
+        return null;
+    };
+
+    const userInfo = getUserInfoFromToken();
+
     return (
         <div className={styles.tableContainer}>
             <h2 className="text-center">Space Marines</h2>
@@ -59,22 +89,36 @@ const SpaceMarineTable = () => {
                             <th className="text-center">Chapter Name</th>
                             <th className="text-center">Chapter World</th>
                             <th className="text-center">Coordinates (X, Y)</th>
+                            <th className="text-center">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {spaceMarines.map(marine => (
-                            <tr key={marine.id}>
-                                <td className="text-center">{marine.id}</td>
-                                <td className="text-center">{marine.name.substring(0, 15) + (marine.name.length >= 15 ? "..." : '')}</td>
-                                <td className="text-center">{marine.health}</td>
-                                <td className="text-center">{marine.category}</td>
-                                <td className="text-center">{marine.weaponType}</td>
-                                <td className="text-center">{marine.meleeWeapon}</td>
-                                <td className="text-center">{marine.chapterName.substring(0, 15) + (marine.chapterName.length >= 15 ? "..." : '')}</td>
-                                <td className="text-center">{marine.chapterWorld.substring(0, 15) + (marine.chapterWorld.length >= 15 ? "..." : '')}</td>
-                                <td className="text-center">{marine.x}, {marine.y}</td>
-                            </tr>
-                        ))}
+                        {spaceMarines.map(marine => {
+                            const canEdit = userInfo && (userInfo.role === 'ADMIN' || userInfo.username === marine.createdBy);
+                            const canDelete = userInfo && (userInfo.role === 'ADMIN' || userInfo.username === marine.createdBy);
+
+                            return (
+                                <tr key={marine.id}>
+                                    <td className="text-center">{marine.id}</td>
+                                    <td className="text-center">{marine.name.substring(0, 15) + (marine.name.length >= 15 ? "..." : '')}</td>
+                                    <td className="text-center">{marine.health}</td>
+                                    <td className="text-center">{marine.category}</td>
+                                    <td className="text-center">{marine.weaponType}</td>
+                                    <td className="text-center">{marine.meleeWeapon}</td>
+                                    <td className="text-center">{marine.chapterName.substring(0, 15) + (marine.chapterName.length >= 15 ? "..." : '')}</td>
+                                    <td className="text-center">{marine.chapterWorld.substring(0, 15) + (marine.chapterWorld.length >= 15 ? "..." : '')}</td>
+                                    <td className="text-center">{marine.x}, {marine.y}</td>
+                                    <td className="text-center">
+                                        {canEdit && (
+                                            <button onClick={() => handleEdit(marine.id)} className={styles.actionButton} style={{ backgroundColor: "#ff8000" }}>Edit</button>
+                                        )}
+                                        {canDelete && (
+                                            <button onClick={() => handleDelete(marine.id)} className={styles.actionButton} style={{ backgroundColor: "#ff0000" }}>Delete</button>
+                                        )}
+                                    </td>
+                                </tr>
+                            );
+                        })}
                         </tbody>
                     </table>
                     <div className={styles.pagination}>

@@ -55,6 +55,9 @@ public class SpaceMarineDTO {
     private Long existingChapterId;
 
     @Nullable
+    private String createdBy;
+
+    @Nullable
     private Long existingCoordinateId;
 
     public SpaceMarine toEntity() throws IllegalArgumentException{

@@ -3,6 +3,7 @@ package com.bashkir777.api.services;
 import com.bashkir777.api.data.entities.Chapter;
 import com.bashkir777.api.data.entities.Coordinates;
 import com.bashkir777.api.data.entities.SpaceMarine;
+import com.bashkir777.api.data.entities.User;
 import com.bashkir777.api.data.repositories.ChapterRepository;
 import com.bashkir777.api.data.repositories.CoordinatesRepository;
 import com.bashkir777.api.data.repositories.SpaceMarineRepository;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,6 +43,10 @@ public class SpaceMarineService {
                     .orElseThrow(() -> new IllegalArgumentException("Invalid existing chapter ID"));
             spaceMarine.setChapter(existingChapter);
         }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        spaceMarine.setCreatedBy(currentUser);
 
         spaceMarineRepository.save(spaceMarine);
         return new OperationInfo(true, "Space Marine successfully created");
