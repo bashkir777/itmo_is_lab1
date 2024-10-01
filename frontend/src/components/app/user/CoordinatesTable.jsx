@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../../css/CoordinatesTable.module.css';
+import {COORDINATES_INFO_URL} from "../../../tools/consts";
 
 const COORDINATES_URL = '/api/v1/coordinates';
 
@@ -12,7 +13,7 @@ const CoordinatesTable = ({ refresh }) => {
     const fetchCoordinates = async (page) => {
         setLoading(true);
         try {
-            const response = await fetch(`${COORDINATES_URL}?page=${page}&size=10`);
+            const response = await fetch(`${COORDINATES_INFO_URL}?page=${page}&size=10`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

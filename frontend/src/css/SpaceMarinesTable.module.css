@@ -1,0 +1,59 @@
+/* SpaceMarinesTable.module.css */
+.tableContainer {
+    margin: 20px;
+}
+
+.spaceMarinesTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.spaceMarinesTable th, .spaceMarinesTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.spaceMarinesTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #3498db; /* Синий цвет для заголовков */
+    color: white;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 8px 12px;
+    background-color: #3498db; /* Синий цвет для кнопок пагинации */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background-color: #2980b9; /* Темно-синий цвет для активной кнопки */
+}
+
+.pagination button:hover:not(.active) {
+    background-color: #2980b9; /* Темно-синий цвет при наведении */
+}
+
+.refreshButton {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #3498db; /* Синий цвет для кнопки обновления */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.refreshButton:hover {
+    background-color: #2980b9; /* Темно-синий цвет при наведении */
+}

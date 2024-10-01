@@ -24,5 +24,7 @@ export const REGISTER_URL = AUTH_URL + '/register'
 export const REFRESH_URL = AUTH_URL + '/refresh'
 
 export const SPACE_MARINES_URL = '/api/v1/space-marines';
-export const COORDINATES_URL = '/api/v1/coordinates';
-export const CHAPTERS_URL = '/api/v1/chapters';
+
+export const SPACE_MARINES_INFO_URL = '/api/v1/info/space-marines';
+export const COORDINATES_INFO_URL = '/api/v1/info/coordinates';
+export const CHAPTERS_INFO_URL = '/api/v1/info/chapters';

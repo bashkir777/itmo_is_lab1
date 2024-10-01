@@ -18,7 +18,7 @@ const CreateSpaceMarinePage = () => {
         justifyContent: 'center'
     };
 
-    const handleRefreshCoordinates = () => {
+    const handleRefresh = () => {
         setRefresh(!refresh);
     };
 
@@ -26,7 +26,7 @@ const CreateSpaceMarinePage = () => {
         <>
             <div style={backgroundStyle}>
                 <ChaptersTable refresh={refresh}/>
-                <SpaceMarineForm onSuccess={handleRefreshCoordinates} />
+                <SpaceMarineForm onSuccess={handleRefresh} />
                 <CoordinatesTable refresh={refresh} />
             </div>
         </>

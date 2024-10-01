@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../../css/ChaptersTable.module.css';
+import {CHAPTERS_INFO_URL} from "../../../tools/consts";
 
 const CHAPTERS_URL = '/api/v1/chapters';
 
@@ -12,7 +13,7 @@ const ChaptersTable = ({ refresh }) => {
     const fetchChapters = async (page) => {
         setLoading(true);
         try {
-            const response = await fetch(`${CHAPTERS_URL}?page=${page}&size=10`);
+            const response = await fetch(`${CHAPTERS_INFO_URL}?page=${page}&size=10`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

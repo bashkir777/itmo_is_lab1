@@ -7,6 +7,7 @@ import Logout from "../../auth/forms/Logout";
 import {useSelector} from "react-redux";
 import {selectAuthenticated} from "../../../redux/selectors";
 import CreateSpaceMarinePage from "./CreateSpaceMarinePage";
+import SpaceMarineTable from "../user/SpaceMarineTable";
 
 
 const UserPage = () => {
@@ -26,6 +27,10 @@ const UserPage = () => {
                     <Logout/>
                 </div>
 
+            }
+            {
+                page === Pages.List &&
+                <SpaceMarineTable />
             }
 
             {
