@@ -1,6 +1,7 @@
 package com.bashkir777.api.controllers;
 
 import com.bashkir777.api.dto.OperationInfo;
+import com.bashkir777.api.dto.PaginatedSpaceMarineDTO;
 import com.bashkir777.api.dto.SpaceMarineDTO;
 import com.bashkir777.api.services.SpaceMarineService;
 import jakarta.validation.Valid;
@@ -9,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/space-marines")
@@ -27,8 +26,10 @@ public class SpaceMarineController {
     }
 
     @GetMapping
-    public List<SpaceMarineDTO> getAllSpaceMarines() {
-        return spaceMarineService.getAllSpaceMarines();
+    public ResponseEntity<PaginatedSpaceMarineDTO> getAllSpaceMarines(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(spaceMarineService.getAllSpaceMarines(page, size));
     }
 
     @GetMapping("/{id}")
@@ -43,5 +44,4 @@ public class SpaceMarineController {
                 .body(OperationInfo.builder().success(false)
                         .message(exception.getMessage()).build());
     }
-
 }

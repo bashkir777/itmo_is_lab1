@@ -5,6 +5,7 @@ import com.bashkir777.api.data.entities.Coordinates;
 import com.bashkir777.api.data.entities.SpaceMarine;
 import com.bashkir777.api.data.repositories.SpaceMarineRepository;
 import com.bashkir777.api.dto.OperationInfo;
+import com.bashkir777.api.dto.PaginatedSpaceMarineDTO;
 import com.bashkir777.api.dto.SpaceMarineDTO;
 import com.bashkir777.api.data.enums.AstartesCategory;
 import com.bashkir777.api.data.enums.MeleeWeapon;
@@ -13,7 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -64,10 +68,14 @@ class SpaceMarineServiceTest {
         SpaceMarine marine1 = createSpaceMarine(1, "Marine 1");
         SpaceMarine marine2 = createSpaceMarine(2, "Marine 2");
 
-        when(spaceMarineRepository.findAll()).thenReturn(Arrays.asList(marine1, marine2));
+        List<SpaceMarine> marines = Arrays.asList(marine1, marine2);
+        Page<SpaceMarine> marinePage = new PageImpl<>(marines);
+
+        when(spaceMarineRepository.findAll(any(Pageable.class))).thenReturn(marinePage);
 
         // Act
-        List<SpaceMarineDTO> spaceMarines = spaceMarineService.getAllSpaceMarines();
+        PaginatedSpaceMarineDTO paginatedSpaceMarines = spaceMarineService.getAllSpaceMarines(0, 10);
+        List<SpaceMarineDTO> spaceMarines = paginatedSpaceMarines.getContent();
 
         // Assert
         assertEquals(2, spaceMarines.size());

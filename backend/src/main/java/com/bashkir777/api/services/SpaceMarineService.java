@@ -7,8 +7,12 @@ import com.bashkir777.api.data.repositories.ChapterRepository;
 import com.bashkir777.api.data.repositories.CoordinatesRepository;
 import com.bashkir777.api.data.repositories.SpaceMarineRepository;
 import com.bashkir777.api.dto.OperationInfo;
+import com.bashkir777.api.dto.PaginatedSpaceMarineDTO;
 import com.bashkir777.api.dto.SpaceMarineDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,15 +45,20 @@ public class SpaceMarineService {
         return new OperationInfo(true, "Space Marine successfully created");
     }
 
-    public List<SpaceMarineDTO> getAllSpaceMarines() {
-        return spaceMarineRepository.findAll().stream()
+    public PaginatedSpaceMarineDTO getAllSpaceMarines(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<SpaceMarine> spaceMarinePage = spaceMarineRepository.findAll(pageable);
+        List<SpaceMarineDTO> spaceMarineDTOs = spaceMarinePage.getContent().stream()
                 .map(SpaceMarine::toDTO)
                 .collect(Collectors.toList());
+        return PaginatedSpaceMarineDTO.builder()
+                .content(spaceMarineDTOs)
+                .totalPages(spaceMarinePage.getTotalPages())
+                .build();
     }
 
     public SpaceMarine getSpaceMarineById(Integer id) throws RuntimeException {
         return spaceMarineRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("SpaceMarine not found"));
     }
-
 }
