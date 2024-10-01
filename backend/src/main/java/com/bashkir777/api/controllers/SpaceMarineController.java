@@ -22,6 +22,11 @@ public class SpaceMarineController {
                 body(spaceMarineService.createSpaceMarine(dto));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<OperationInfo> deleteSpaceMarine(@PathVariable int id) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).
+                body(spaceMarineService.deleteSpaceMarine(id));
+    }
 
     @ExceptionHandler({RuntimeException.class})
     private ResponseEntity<OperationInfo> badCredentials(RuntimeException exception) {

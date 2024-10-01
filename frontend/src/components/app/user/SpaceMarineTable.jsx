@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../../css/SpaceMarinesTable.module.css';
 import { SPACE_MARINES_INFO_URL } from "../../../tools/consts";
+import {useDispatch} from "react-redux";
+import {setError, setErrorMessage} from "../../../redux/actions";
 
 const SPACE_MARINES_URL = '/api/v1/space-marines';
 
@@ -9,6 +11,8 @@ const SpaceMarineTable = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
+
+    const dispatch = useDispatch();
 
     const fetchSpaceMarines = async (page) => {
         setLoading(true);
@@ -44,7 +48,18 @@ const SpaceMarineTable = () => {
     };
 
     const handleDelete = async (id) => {
-        // not implemented yet
+        fetch(`${SPACE_MARINES_URL}/${id}`,
+            {method: 'DELETE',
+                headers: {'Authorization': `Bearer ${localStorage.getItem('accessToken')}`}}).
+        then((response) => {
+            if (!response.ok) {
+                dispatch(setError(true));
+                dispatch(setErrorMessage("Не удалось удалить объект. Повторите попытку позже"))
+            }else{
+                handleRefresh();
+            }
+
+        })
     };
 
     const parseJwt = (token) => {

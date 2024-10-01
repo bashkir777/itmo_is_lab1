@@ -10,6 +10,7 @@ import com.bashkir777.api.data.repositories.SpaceMarineRepository;
 import com.bashkir777.api.dto.OperationInfo;
 import com.bashkir777.api.dto.PaginatedSpaceMarineDTO;
 import com.bashkir777.api.dto.SpaceMarineDTO;
+import com.bashkir777.api.services.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +30,10 @@ public class SpaceMarineService {
     private final ChapterRepository chapterRepository;
     private final CoordinatesRepository coordinatesRepository;
 
+    private User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (User) authentication.getPrincipal();
+    }
     public OperationInfo createSpaceMarine(SpaceMarineDTO dto) {
         SpaceMarine spaceMarine = dto.toEntity();
 
@@ -44,8 +49,7 @@ public class SpaceMarineService {
             spaceMarine.setChapter(existingChapter);
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = (User) authentication.getPrincipal();
+        User currentUser = getCurrentUser();
         spaceMarine.setCreatedBy(currentUser);
 
         spaceMarineRepository.save(spaceMarine);
@@ -67,5 +71,20 @@ public class SpaceMarineService {
     public SpaceMarine getSpaceMarineById(Integer id) throws RuntimeException {
         return spaceMarineRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("SpaceMarine not found"));
+    }
+
+    public OperationInfo deleteSpaceMarine(int id) throws RuntimeException{
+
+        SpaceMarine spaceMarine = spaceMarineRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("SpaceMarine not found"));
+
+        User currentUser = getCurrentUser();
+
+        if (currentUser.getRole() == Role.ADMIN || currentUser.getId().equals(spaceMarine.getCreatedBy().getId())) {
+            spaceMarineRepository.delete(spaceMarine);
+            return new OperationInfo(true, "Space Marine successfully deleted");
+        } else {
+            throw new RuntimeException("You do not have permission to delete this SpaceMarine");
+        }
     }
 }
