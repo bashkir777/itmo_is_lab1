@@ -11,6 +11,8 @@ import com.bashkir777.api.dto.OperationInfo;
 import com.bashkir777.api.dto.PaginatedSpaceMarineDTO;
 import com.bashkir777.api.dto.SpaceMarineDTO;
 import com.bashkir777.api.services.enums.Role;
+import jakarta.validation.Valid;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,20 +36,24 @@ public class SpaceMarineService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (User) authentication.getPrincipal();
     }
-    public OperationInfo createSpaceMarine(SpaceMarineDTO dto) {
-        SpaceMarine spaceMarine = dto.toEntity();
-
+    private void linkCoordinatesAndChapter(@NonNull SpaceMarine existingSpaceMarine, SpaceMarineDTO dto){
         if (dto.getExistingCoordinateId() != null) {
             Coordinates existingCoordinates = coordinatesRepository.findById(dto.getExistingCoordinateId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid existing coordinate ID"));
-            spaceMarine.setCoordinates(existingCoordinates);
+            existingSpaceMarine.setCoordinates(existingCoordinates);
         }
 
         if (dto.getExistingChapterId() != null) {
             Chapter existingChapter = chapterRepository.findById(dto.getExistingChapterId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid existing chapter ID"));
-            spaceMarine.setChapter(existingChapter);
+            existingSpaceMarine.setChapter(existingChapter);
         }
+    }
+
+    public OperationInfo createSpaceMarine(SpaceMarineDTO dto) {
+        SpaceMarine spaceMarine = dto.toEntity();
+
+        linkCoordinatesAndChapter(spaceMarine, dto);
 
         User currentUser = getCurrentUser();
         spaceMarine.setCreatedBy(currentUser);
@@ -86,5 +92,41 @@ public class SpaceMarineService {
         } else {
             throw new RuntimeException("You do not have permission to delete this SpaceMarine");
         }
+    }
+
+    public OperationInfo patchSpaceMarine(@Valid SpaceMarineDTO dto) {
+        assert dto.getId() != null;
+        SpaceMarine existingSpaceMarine = spaceMarineRepository.findById(dto.getId())
+                .orElseThrow(() -> new RuntimeException("SpaceMarine not found"));
+
+        existingSpaceMarine.setName(dto.getName());
+        existingSpaceMarine.setHealth(dto.getHealth());
+        existingSpaceMarine.setCategory(dto.getCategory());
+        existingSpaceMarine.setWeaponType(dto.getWeaponType());
+        existingSpaceMarine.setMeleeWeapon(dto.getMeleeWeapon());
+
+        linkCoordinatesAndChapter(existingSpaceMarine, dto);
+
+        if(dto.getExistingCoordinateId() == null) {
+            assert dto.getX() != null;
+            assert dto.getY() != null;
+            Coordinates coordinates = new Coordinates();
+            coordinates.setX(dto.getX());
+            coordinates.setY(dto.getY());
+            existingSpaceMarine.setCoordinates(coordinates);
+        }
+        
+        if(dto.getExistingChapterId() == null) {
+            assert dto.getChapterWorld() != null;
+            assert dto.getChapterName() != null;
+            Chapter chapter = new Chapter();
+            chapter.setName(dto.getChapterName());
+            chapter.setWorld(dto.getChapterWorld());
+            existingSpaceMarine.setChapter(chapter);
+        }
+
+        spaceMarineRepository.save(existingSpaceMarine);
+
+        return new OperationInfo(true, "Space Marine successfully updated");
     }
 }

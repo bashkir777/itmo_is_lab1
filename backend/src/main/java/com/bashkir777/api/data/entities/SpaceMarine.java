@@ -78,6 +78,8 @@ public class SpaceMarine {
         dto.setChapterWorld(this.getChapter().getWorld());
         dto.setHealth(this.getHealth());
         dto.setCategory(this.getCategory());
+        dto.setExistingChapterId(this.getChapter().getId());
+        dto.setExistingCoordinateId(this.getCoordinates().getId());
         dto.setWeaponType(this.getWeaponType());
         dto.setMeleeWeapon(this.getMeleeWeapon());
         dto.setCreatedBy(this.getCreatedBy().getUsername());

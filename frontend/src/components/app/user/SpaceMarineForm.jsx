@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SPACE_MARINES_URL } from "../../../tools/consts";
 import styles from '../../../css/SpaceMarineForm.module.css';
 import { useDispatch } from "react-redux";
 import { setError, setErrorMessage, setSuccess, setSuccessMessage } from "../../../redux/actions";
 
-const SpaceMarineForm = ({ onSuccess }) => {
+const SpaceMarineForm = ({ onSuccess, initialData = null }) => {
 
     const dispatch = useDispatch();
 
@@ -28,6 +28,27 @@ const SpaceMarineForm = ({ onSuccess }) => {
 
     const [useExistingChapter, setUseExistingChapter] = useState(false);
     const [useExistingCoordinate, setUseExistingCoordinate] = useState(false);
+
+    useEffect(() => {
+        if (initialData) {
+            setFormData({
+                id: initialData.id,
+                name: initialData.name || '',
+                x: initialData.x || '',
+                y: initialData.y || '',
+                chapterName: initialData.chapterName || '',
+                chapterWorld: initialData.chapterWorld || '',
+                health: initialData.health || '',
+                category: initialData.category || '',
+                weaponType: initialData.weaponType || '',
+                meleeWeapon: initialData.meleeWeapon || '',
+                existingChapterId: initialData.existingChapterId || '',
+                existingCoordinateId: initialData.existingCoordinateId || '',
+            });
+            setUseExistingChapter(true);
+            setUseExistingCoordinate(true);
+        }
+    }, [initialData]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -85,8 +106,11 @@ const SpaceMarineForm = ({ onSuccess }) => {
 
         if (validateForm()) {
             try {
-                const response = await fetch(SPACE_MARINES_URL, {
-                    method: 'POST',
+                const method = initialData ? 'PATCH' : 'POST';
+                const url = initialData ? `${SPACE_MARINES_URL}` : SPACE_MARINES_URL;
+
+                const response = await fetch(url, {
+                    method: method,
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`
@@ -101,19 +125,20 @@ const SpaceMarineForm = ({ onSuccess }) => {
                 const result = await response.json();
 
                 dispatch(setSuccess(true));
-                dispatch(setSuccessMessage('SpaceMarine created successfully!'));
+                dispatch(setSuccessMessage(`SpaceMarine ${initialData ? 'updated' : 'created'} successfully!`));
 
                 resetForm();
                 onSuccess();
             } catch (error) {
                 dispatch(setError(true));
-                dispatch(setErrorMessage("Error creating SpaceMarine. Please, try again later"));
+                dispatch(setErrorMessage(`Error ${initialData ? 'updating' : 'creating'} SpaceMarine. Please, try again later`));
             }
         }
     };
 
     const resetForm = () => {
         setFormData({
+            id: '',
             name: '',
             x: '',
             y: '',
@@ -130,7 +155,7 @@ const SpaceMarineForm = ({ onSuccess }) => {
         setUseExistingChapter(false);
         setUseExistingCoordinate(false);
     };
-    
+
     const resetCoordinateErrors = () => {
         setErrors(prev => ({ ...prev, x: '', y: '', existingCoordinateId: '' }));
     };
@@ -142,7 +167,7 @@ const SpaceMarineForm = ({ onSuccess }) => {
     return (
         <div className={styles.formContainer} >
             <form onSubmit={handleSubmit} className={styles.spaceMarineForm}>
-                <h2>Create SpaceMarine</h2>
+                <h2>{initialData ? 'Update SpaceMarine' : 'Create SpaceMarine'}</h2>
                 <div className={styles.formGrid}>
                     <div className={styles.formGroup}>
                         <label className="text-center" htmlFor="name">Name</label>
@@ -352,7 +377,7 @@ const SpaceMarineForm = ({ onSuccess }) => {
                     </div>
                 </div>
 
-                <button type="submit" className={styles.submitButton}>Create SpaceMarine</button>
+                <button type="submit" className={styles.submitButton}>{initialData ? 'Update SpaceMarine' : 'Create SpaceMarine'}</button>
             </form>
         </div>
     );

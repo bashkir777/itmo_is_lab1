@@ -22,6 +22,12 @@ public class SpaceMarineController {
                 body(spaceMarineService.createSpaceMarine(dto));
     }
 
+    @PatchMapping
+    public ResponseEntity<OperationInfo> patchSpaceMarine(@RequestBody @Valid SpaceMarineDTO dto) {
+        return ResponseEntity.status(HttpStatus.OK).
+                body(spaceMarineService.patchSpaceMarine(dto));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<OperationInfo> deleteSpaceMarine(@PathVariable int id) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).

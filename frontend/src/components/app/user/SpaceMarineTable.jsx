@@ -3,6 +3,7 @@ import styles from '../../../css/SpaceMarinesTable.module.css';
 import { SPACE_MARINES_INFO_URL } from "../../../tools/consts";
 import {useDispatch} from "react-redux";
 import {setError, setErrorMessage} from "../../../redux/actions";
+import PatchSpaceMarinePage from "../pages/PatchSpaceMarinePage";
 
 const SPACE_MARINES_URL = '/api/v1/space-marines';
 
@@ -43,9 +44,7 @@ const SpaceMarineTable = () => {
         fetchSpaceMarines(currentPage);
     };
 
-    const handleEdit = (id) => {
-        // not implemented yet
-    };
+    const[showPatchForm, setShowPatchForm] = useState(false);
 
     const handleDelete = async (id) => {
         fetch(`${SPACE_MARINES_URL}/${id}`,
@@ -84,7 +83,23 @@ const SpaceMarineTable = () => {
 
     const userInfo = getUserInfoFromToken();
 
+    const [formData, setFormData] = useState({
+        id: '',
+        name: '',
+        health: '',
+        category: '',
+        weaponType: '',
+        meleeWeapon: '',
+        existingChapterId: '',
+        existingCoordinateId: '',
+    });
+
     return (
+        <>
+            {showPatchForm && <PatchSpaceMarinePage initialData={formData} close={()=> {
+                setShowPatchForm(false);
+                handleRefresh();
+            }} />}
         <div className={styles.tableContainer}>
             <h2 className="text-center">Space Marines</h2>
             <button onClick={handleRefresh} className={styles.refreshButton}>Refresh</button>
@@ -125,7 +140,10 @@ const SpaceMarineTable = () => {
                                     <td className="text-center">{marine.x}, {marine.y}</td>
                                     <td className="text-center">
                                         {canEdit && (
-                                            <button onClick={() => handleEdit(marine.id)} className={styles.actionButton} style={{ backgroundColor: "#ff8000" }}>Edit</button>
+                                            <button onClick={() => {
+                                                setFormData(marine);
+                                                setShowPatchForm(true);
+                                            }} className={styles.actionButton} style={{ backgroundColor: "#ff8000" }}>Edit</button>
                                         )}
                                         {canDelete && (
                                             <button onClick={() => handleDelete(marine.id)} className={styles.actionButton} style={{ backgroundColor: "#ff0000" }}>Delete</button>
@@ -151,6 +169,7 @@ const SpaceMarineTable = () => {
                 </>
             )}
         </div>
+        </>
     );
 };
 
