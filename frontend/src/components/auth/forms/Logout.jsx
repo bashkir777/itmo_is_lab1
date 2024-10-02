@@ -1,6 +1,6 @@
 import React from 'react';
 import {MDBBtn} from "mdb-react-ui-kit";
-import {LOGOUT_URL} from "../../../tools/consts";
+import {LOGOUT_URL, Pages} from "../../../tools/consts";
 import  "../../../css/main.css"
 import {useDispatch} from "react-redux";
 import {
@@ -8,7 +8,7 @@ import {
     setRefreshToken, setSuccess, setSuccessMessage
 } from "../../../redux/actions";
 
-const Logout = () => {
+const Logout = ({setPage}) => {
 
     const dispatch = useDispatch();
 
@@ -30,13 +30,14 @@ const Logout = () => {
         }).then(response => response.json())
             .then(data => {
                 dispatch(setSuccess(true));
-                dispatch(setSuccessMessage('Вы успешно вышли из аккаунта.'))
+                dispatch(setSuccessMessage('Вы успешно вышли из аккаунта.'));
+                setPage(Pages.Login);
             }).finally(() => {
             localStorage.removeItem("refreshToken");
             localStorage.removeItem("accessToken");
             dispatch(setAccessToken(''));
             dispatch(setRefreshToken(''));
-            dispatch(setAuthenticated(false))
+            dispatch(setAuthenticated(false));
         })
 
 

@@ -70,3 +70,42 @@
 .actionButton:hover {
     background-color: #08679c;
 }
+
+/* Новые стили для фильтрации и сортировки */
+.filterSortContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.filterContainer, .sortContainer {
+    display: flex;
+    align-items: center;
+}
+
+.filterSelect, .sortSelect {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.filterInput {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.filterButton, .sortButton {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.filterButton:hover, .sortButton:hover {
+    background-color: #0b87cd;
+}

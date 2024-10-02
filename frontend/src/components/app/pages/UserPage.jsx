@@ -24,7 +24,7 @@ const UserPage = () => {
             {
                 page === Pages.Account &&
                 <div style={{height:'100vh', display:'flex', justifyContent:'center', alignItems: 'center'}}>
-                    <Logout/>
+                    <Logout setPage={setPage}/>
                 </div>
 
             }
