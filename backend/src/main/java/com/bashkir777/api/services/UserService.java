@@ -74,6 +74,10 @@ public class UserService {
         }
     }
 
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
     public boolean deleteUserByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isPresent()) {

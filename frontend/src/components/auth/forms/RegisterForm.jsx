@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {MDBBtn, MDBInput} from "mdb-react-ui-kit";
-import {Authentication,  REGISTER_URL} from "../../../tools/consts";
+import {Authentication, REGISTER_URL, ADMIN_APPLICATION_URL} from "../../../tools/consts";
 import {useDispatch} from "react-redux";
 import {setError, setErrorMessage, setSuccess, setSuccessMessage} from "../../../redux/actions";
 
-const RegisterForm = ({setAuthentication}) => {
+const RegisterForm = ({setAuthentication, mode}) => {
 
     const dispatch = useDispatch();
 
@@ -81,7 +81,9 @@ const RegisterForm = ({setAuthentication}) => {
             return;
         }
 
-        fetch(REGISTER_URL, {
+        const url = mode === 'register' ? REGISTER_URL : ADMIN_APPLICATION_URL;
+
+        fetch(url, {
             method: "POST",
             body: JSON.stringify(userData),
             headers: {
@@ -98,7 +100,11 @@ const RegisterForm = ({setAuthentication}) => {
             .then(data => {
                 if (data.success) {
                     dispatch(setSuccess(true));
-                    dispatch(setSuccessMessage("Вы были успешно зарегистрированы. Пожалуйста, войдите в аккаунт"));
+                    if (mode === 'register') {
+                        dispatch(setSuccessMessage("Вы были успешно зарегистрированы. Пожалуйста, войдите в аккаунт"));
+                    } else {
+                        dispatch(setSuccessMessage("Заявка была создана и отправлена на рассмотрение. Чтобы отслеживать ее статус, войдите в приложение."));
+                    }
                     setAuthentication(Authentication.Login);
                 } else {
                     dispatch(setError(true));
@@ -116,7 +122,9 @@ const RegisterForm = ({setAuthentication}) => {
 
                             <div className="my-md-4 pb-2">
 
-                                <h2 className="fw-bold mb-2 text-uppercase">Регистрация</h2>
+                                <h2 className="fw-bold mb-2 text-uppercase">
+                                    {mode === 'register' ? 'Регистрация' : 'Получить статуса администратора'}
+                                </h2>
                                 <p className="text-dark-50 mb-4">Пожалуйста, заполните форму!</p>
 
                                 <div className="form-outline form-dark mb-4">
@@ -141,7 +149,7 @@ const RegisterForm = ({setAuthentication}) => {
                                 </div>
 
                                 <MDBBtn outline className="btn btn-outline-dark btn-lg px-5 mt-3"
-                                        type="submit" onClick={nextHandler}>Далее</MDBBtn>
+                                        type="submit" onClick={nextHandler}>{mode === 'register' ? 'Далее' : 'Отправить заявку'}</MDBBtn>
                             </div>
                             <div className={`${isPhone && "mt-3"}`}>
                                 <p className="mb-0">Хотите вернуться назад? <a href="#!"

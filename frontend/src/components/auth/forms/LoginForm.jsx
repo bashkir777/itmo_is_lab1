@@ -96,13 +96,21 @@ const LoginForm = ({setAuthentication, setPage}) => {
                             </div>
 
                             <div>
-                                <p className={`mb-0 ${isPhone && "fs-6"}`}>Еще нет аккаунта? <a href="#!"
+                                <p className={`mb-2 ${isPhone && "fs-6"}`}>Еще нет аккаунта? <a href="#!"
                                                                                                 onClick={(event) => {
                                                                                                     event.preventDefault();
                                                                                                     setAuthentication(Authentication.Register);
                                                                                                 }}
                                                                                                 className="text-dark-50 fs-6">Регистрация</a>
-                                </p></div>
+                                </p>
+                                <p className={`mb-0 ${isPhone && "fs-6"}`}>Хотите стать администратором? <a href="#!"
+                                                                                                onClick={(event) => {
+                                                                                                    event.preventDefault();
+                                                                                                    setAuthentication(Authentication.AdminRegister);
+                                                                                                }}
+                                                                                                className="text-dark-50 fs-6">Отправить заявку</a>
+                                </p>
+                            </div>
 
 
                         </div>

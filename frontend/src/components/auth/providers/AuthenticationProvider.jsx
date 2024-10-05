@@ -27,8 +27,13 @@ const AuthenticationProvider = ({setPage}) => {
                 && <LoginForm setPage={setPage} setAuthentication={setAuthentication}
                 />}
             {authentication === Authentication.Register
-                && <RegisterForm setAuthentication={setAuthentication}
+                && <RegisterForm setAuthentication={setAuthentication} mode={"register"}
                 />}
+            {
+                authentication === Authentication.AdminRegister
+                && <RegisterForm setAuthentication={setAuthentication} mode={"admin-application"}
+                />
+            }
         </span>
     );
 };

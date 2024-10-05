@@ -26,6 +26,13 @@ public class AuthController {
                 .body(authenticationService.register(registerRequest));
     }
 
+    @PostMapping("/admin-application")
+    public ResponseEntity<OperationInfo> adminApplication(@RequestBody RegisterRequest registerRequest)
+            throws BadCredentialsException {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(authenticationService.adminApplication(registerRequest));
+    }
+
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest loginRequest)
             throws BadCredentialsException, JsonProcessingException {

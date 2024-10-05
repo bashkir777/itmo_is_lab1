@@ -8,6 +8,7 @@ import {useSelector} from "react-redux";
 import {selectAuthenticated} from "../../../redux/selectors";
 import CreateSpaceMarinePage from "./CreateSpaceMarinePage";
 import SpaceMarineTable from "../user/SpaceMarineTable";
+import AdminApplications from "../user/AdminApplications";
 
 
 const UserPage = () => {
@@ -35,6 +36,9 @@ const UserPage = () => {
 
             {
                 page === Pages.CreateSpaceMarine && <CreateSpaceMarinePage/>
+            }
+            {
+                page === Pages.Applications && <AdminApplications/>
             }
 
         </>

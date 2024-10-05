@@ -20,14 +20,15 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
+    private final AdminApplicationService adminApplicationService;
 
     public OperationInfo register(RegisterRequest registerRequest) throws BadCredentialsException {
         return userService.register(registerRequest);
     }
 
-    public User getUser(String email) throws BadCredentialsException {
-        return userService.getUserByUsername(email).orElseThrow(
-                () -> new BadCredentialsException("There is no user with such email")
+    public User getUser(String username) throws BadCredentialsException {
+        return userService.getUserByUsername(username).orElseThrow(
+                () -> new BadCredentialsException("There is no user with such username")
         );
     }
 
@@ -75,10 +76,16 @@ public class AuthenticationService {
     public void logout(RefreshTokenDTO refreshToken) throws JWTVerificationException, BadCredentialsException {
         DecodedJWT decodedJWT = jwtService.decodeAndValidateToken(refreshToken.getRefreshToken());
 
-        String email = decodedJWT.getSubject();
+        String username = decodedJWT.getSubject();
 
-        User user = getUser(email);
+        User user = getUser(username);
 
         refreshTokenService.deleteRefreshTokenByUserId(user.getId());
+    }
+
+    public OperationInfo adminApplication(RegisterRequest registerRequest) throws BadCredentialsException {
+        userService.register(registerRequest);
+        var user = userService.getUserByUsername(registerRequest.getUsername()).orElseThrow(()->new BadCredentialsException("Error creating user"));
+        return adminApplicationService.createNewAdminApplication(user);
     }
 }

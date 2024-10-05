@@ -1,13 +1,11 @@
 package com.bashkir777.api.controllers;
 
-import com.bashkir777.api.dto.PaginatedChapterDTO;
-import com.bashkir777.api.dto.PaginatedCoordinatesDTO;
-import com.bashkir777.api.dto.PaginatedSpaceMarineDTO;
-import com.bashkir777.api.dto.SpaceMarineDTO;
+import com.bashkir777.api.dto.*;
 import com.bashkir777.api.services.ChaptersService;
 import com.bashkir777.api.services.CoordinatesService;
 import com.bashkir777.api.services.SpaceMarineService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +42,14 @@ public class InfoController {
     @GetMapping("/space-marines/{id}")
     public SpaceMarineDTO getSpaceMarineById(@PathVariable Integer id) throws RuntimeException {
         return spaceMarineService.getSpaceMarineById(id).toDTO();
+    }
+
+    @ExceptionHandler({RuntimeException.class})
+    private ResponseEntity<OperationInfo> badCredentials(RuntimeException exception) {
+        exception.printStackTrace();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(OperationInfo.builder().success(false)
+                        .message(exception.getMessage()).build());
     }
     
 }
