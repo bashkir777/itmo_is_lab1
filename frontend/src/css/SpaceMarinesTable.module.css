@@ -1,6 +1,9 @@
 /* SpaceMarinesTable.module.css */
 .tableContainer {
     margin: 20px;
+    background-color: white;
+    padding: 2% 8% 1%;
+    border-radius: 20px;
 }
 
 .spaceMarinesTable {
@@ -24,7 +27,7 @@
 .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 5%;
 }
 
 .pagination button {
@@ -71,7 +74,6 @@
     background-color: #08679c;
 }
 
-/* Новые стили для фильтрации и сортировки */
 .filterSortContainer {
     display: flex;
     justify-content: space-between;

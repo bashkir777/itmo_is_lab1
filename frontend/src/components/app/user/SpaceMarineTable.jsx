@@ -134,14 +134,27 @@ const SpaceMarineTable = () => {
     const filteredMarines = applyFilter();
     const sortedMarines = applySort(filteredMarines);
 
+    const backgroundImageUrl = 'url(/img/sea.jpg)';
+
+
+    const backgroundStyle = {
+        backgroundImage:  backgroundImageUrl,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    };
+
     return (
-        <>
+        <div style={backgroundStyle}>
             {showPatchForm && <PatchSpaceMarinePage initialData={formData} close={() => {
                 setShowPatchForm(false);
                 handleRefresh();
             }} />}
             <div className={styles.tableContainer}>
-                <h2 className="text-center">Space Marines</h2>
+                <h2 className="text-center" style={{marginBottom: '3%'}}>Space Marines</h2>
                 <div className={styles.filterSortContainer}>
                     <div className={styles.filterContainer}>
                         <select
@@ -262,7 +275,7 @@ const SpaceMarineTable = () => {
                     </>
                 )}
             </div>
-        </>
+        </div>
     );
 };
 
