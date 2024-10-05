@@ -41,6 +41,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String requestUri = request.getRequestURI();
+
+        String[] staticResources = {".html", ".css", ".jpg", ".jpeg", ".js", ".png"};
+
+        for(var staticResource : staticResources) {
+            if(requestUri.endsWith(staticResource)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+        }
+
         //if list of open uris includes requested uri -> skip filter
         for (String pattern : SecurityConfig.openUris) {
             String regexPattern = pattern.replace("**", ".*");

@@ -9,7 +9,7 @@
         <relativePath/>
     </parent>
     <groupId>com.bashkir777.projects</groupId>
-    <artifactId>shop-api</artifactId>
+    <artifactId>is-lab1</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>backend</name>
     <description>backend for the 1 lab. of information systems course</description>
