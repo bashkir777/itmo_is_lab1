@@ -23,7 +23,19 @@ const Navbar = ({ setPage, currentPage }) => {
                             setPage(Pages.List);
                         }}
                     >
-                        List
+                        Marines
+                    </a>
+                </div>
+                <div className="px-lg-5 flex-fill text-center d-flex align-items-center">
+                    <a
+                        className={`${styles.element} text-black-50  ${!isPhone && "px-4 py-2 fs-6"} ${isPhone && "px-2 py-1"} text-uppercase  ${currentPage === Pages.Ordens ? styles.active : ''}`}
+                        href=""
+                        onClick={(event) => {
+                            event.preventDefault();
+                            setPage(Pages.Ordens);
+                        }}
+                    >
+                        ordens
                     </a>
                 </div>
 

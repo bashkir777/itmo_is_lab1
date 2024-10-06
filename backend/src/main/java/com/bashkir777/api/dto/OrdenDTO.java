@@ -15,4 +15,7 @@ public class OrdenDTO {
     private Long id;
 
     private String title;
+
+    @Nullable
+    private String createdBy;
 }

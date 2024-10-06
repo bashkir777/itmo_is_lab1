@@ -17,21 +17,16 @@ public class OrdenController {
     private final OrdenService ordenService;
     private final SpaceMarineService spaceMarineService;
 
-    @GetMapping
-    public ResponseEntity<List<OrdenDTO>> getAllOrdens() {
-        return ResponseEntity.ok(ordenService.getAllOrdens());
-    }
-
     @PostMapping
     public ResponseEntity<OperationInfo> createOrden(@RequestBody OrdenDTO ordenDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).
                 body(ordenService.createOrden(ordenDTO.getTitle()));
     }
 
-    @DeleteMapping
-    public ResponseEntity<OperationInfo> deleteOrden(@RequestBody IdDTO dto) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<OperationInfo> deleteOrden(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).
-                body(ordenService.deleteOrden(dto.getId()));
+                body(ordenService.deleteOrden(id));
     }
 
     @PostMapping("/space-marine")

@@ -15,7 +15,8 @@ export const Pages = {
     CreateSpaceMarine: 'CreateSpaceMarine',
     Login: 'Login',
     Account: 'Account',
-    Applications: 'Applications'
+    Applications: 'Applications',
+    Ordens: "Ordens"
 }
 
 
@@ -37,3 +38,5 @@ export const COORDINATES_INFO_URL = '/api/v1/info/coordinates';
 export const CHAPTERS_INFO_URL = '/api/v1/info/chapters';
 
 export const USER_INFO_URL = '/api/v1/user/';
+export const ORDENS_INFO_URL = '/api/v1/info/ordens';
+export const ORDENS_URL = '/api/v1/ordens';

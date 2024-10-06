@@ -10,6 +10,7 @@ import CreateSpaceMarinePage from "./CreateSpaceMarinePage";
 import SpaceMarineTable from "../user/SpaceMarineTable";
 import AdminApplications from "../user/AdminApplications";
 import UserAccountInfo from "../user/UserAccountInfo";
+import OrdensTable from "../user/OrdensTable";
 
 
 const UserPage = () => {
@@ -37,6 +38,9 @@ const UserPage = () => {
             }
             {
                 page === Pages.Applications && <AdminApplications/>
+            }
+            {
+                page === Pages.Ordens && <OrdensTable/>
             }
 
         </>

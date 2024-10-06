@@ -1,0 +1,60 @@
+.tableContainer {
+    margin: 20px;
+    background-color: white;
+    padding: 2% 8% 3%;
+    border-radius: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+
+    width: 70%;
+}
+
+.ordensTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ordensTable th, .ordensTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.ordensTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #007bff;
+    color: white;
+}
+
+.refreshButton{
+    background-color: #007bff;
+    color: white;
+}
+.refreshButton, .createButton{
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.createButton{
+    margin-left: 12px;
+}
+
+.refreshButton:hover {
+    background-color: #0056b3;
+}
+
+.actionButton {
+    margin: 0 5px;
+    padding: 5px 10px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.actionButton:hover {
+    background-color: #08679c;
+}

@@ -98,7 +98,7 @@ class SpaceMarineServiceTest {
         // Arrange
         SpaceMarine marine = createSpaceMarine(1, "Test Marine");
 
-        when(spaceMarineRepository.findById(1)).thenReturn(Optional.of(marine));
+        when(spaceMarineRepository.findById(1L)).thenReturn(Optional.of(marine));
 
         // Act
         SpaceMarine spaceMarine = spaceMarineService.getSpaceMarineById(1);
@@ -118,7 +118,7 @@ class SpaceMarineServiceTest {
     @Test
     void testGetSpaceMarineByIdNotFound() {
         // Arrange
-        when(spaceMarineRepository.findById(1)).thenReturn(Optional.empty());
+        when(spaceMarineRepository.findById(1L)).thenReturn(Optional.empty());
 
         // Act & Assert
         assertThrows(RuntimeException.class, () -> {
@@ -126,7 +126,7 @@ class SpaceMarineServiceTest {
         });
     }
 
-    private SpaceMarine createSpaceMarine(int id, String name) {
+    private SpaceMarine createSpaceMarine(long id, String name) {
         SpaceMarine marine = new SpaceMarine();
         marine.setId(id);
         marine.setName(name);
