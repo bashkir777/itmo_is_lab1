@@ -31,6 +31,7 @@ public class SpaceMarineService {
     private final SpaceMarineRepository spaceMarineRepository;
     private final ChapterRepository chapterRepository;
     private final CoordinatesRepository coordinatesRepository;
+    private final UpdatedService updatedService;
 
     private User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -126,7 +127,7 @@ public class SpaceMarineService {
         }
 
         spaceMarineRepository.save(existingSpaceMarine);
-
+        updatedService.createRecord(getCurrentUser(), existingSpaceMarine);
         return new OperationInfo(true, "Space Marine successfully updated");
     }
 }
