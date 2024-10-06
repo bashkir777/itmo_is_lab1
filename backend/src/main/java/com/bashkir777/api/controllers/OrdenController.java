@@ -23,6 +23,12 @@ public class OrdenController {
                 body(ordenService.createOrden(ordenDTO.getTitle()));
     }
 
+    @PatchMapping
+    public ResponseEntity<OperationInfo> patchOrden(@RequestBody OrdenDTO ordenDTO) {
+        return ResponseEntity.status(HttpStatus.OK).
+                body(ordenService.patchOrden(ordenDTO));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<OperationInfo> deleteOrden(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).

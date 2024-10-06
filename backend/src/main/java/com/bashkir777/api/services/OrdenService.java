@@ -34,6 +34,17 @@ public class OrdenService {
         return new OperationInfo(true, "Orden created successfully");
     }
 
+    public OperationInfo patchOrden(OrdenDTO ordenDTO) throws IllegalArgumentException {
+        assert ordenDTO.getId() != null;
+        var existingOrden = this.getOrdenById(ordenDTO.getId());
+        if(ordenDTO.getTitle().length() < 7){
+            throw new IllegalArgumentException("orden title must be at least 7 characters");
+        }
+        existingOrden.setTitle(ordenDTO.getTitle());
+        ordenRepository.save(existingOrden);
+        return new OperationInfo(true, "Orden patched successfully");
+    }
+
     public Orden getOrdenById(long id) throws IllegalArgumentException {
         return ordenRepository.findOrdenById(id).
                 orElseThrow(()-> new IllegalArgumentException("orden with id " + id + " not found"));

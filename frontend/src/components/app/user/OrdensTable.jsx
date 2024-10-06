@@ -4,14 +4,15 @@ import { ORDENS_INFO_URL, ORDENS_URL } from "../../../tools/consts";
 import {useDispatch, useSelector} from "react-redux";
 import { setError, setErrorMessage } from "../../../redux/actions";
 import { MDBBtn } from 'mdb-react-ui-kit';
-import CreateOrdenForm from './CreateOrdenForm';
 import {selectAuthenticated} from "../../../redux/selectors";
+import OrdenForm from "./OrdenForm";
 
 const OrdensTable = () => {
     const [ordens, setOrdens] = useState([]);
     const [loading, setLoading] = useState(false);
     const [showCreateForm, setShowCreateForm] = useState(false);
-
+    const [showEditForm, setShowEditForm] = useState(false);
+    const [initOrden, setInitOrden] = useState({id: '', title: ''});
     const dispatch = useDispatch();
 
     const fetchOrdens = async () => {
@@ -92,8 +93,15 @@ const OrdensTable = () => {
     return (
         <div style={backgroundStyle}>
             {showCreateForm &&(
-                <CreateOrdenForm
+                <OrdenForm
                     close={() => setShowCreateForm(false)}
+                    handleRefresh={handleRefresh}
+                />
+            )}
+            {showEditForm &&(
+                <OrdenForm
+                    close={() => setShowEditForm(false)}
+                    init={initOrden}
                     handleRefresh={handleRefresh}
                 />
             )}
@@ -140,7 +148,8 @@ const OrdensTable = () => {
                                         <td className="text-center">
                                             {canEdit && (
                                                 <MDBBtn className="ms-1" onClick={() => {
-                                                    // Handle edit button click
+                                                    setShowEditForm(true);
+                                                    setInitOrden(orden);
                                                 }} color="warning">Edit</MDBBtn>
                                             )}
                                             {canDelete && (
