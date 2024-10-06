@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../../css/CoordinatesTable.module.css';
-import {COORDINATES_INFO_URL} from "../../../tools/consts";
+import { COORDINATES_INFO_URL } from "../../../tools/consts";
 
 const COORDINATES_URL = '/api/v1/coordinates';
 
@@ -51,13 +51,21 @@ const CoordinatesTable = ({ refresh }) => {
                         </tr>
                         </thead>
                         <tbody>
-                        {coordinates.map(coord => (
-                            <tr key={coord.id}>
-                                <td className="text-center">{coord.id}</td>
-                                <td className="text-center">{coord.x}</td>
-                                <td className="text-center">{coord.y}</td>
+                        {coordinates.length === 0 ? (
+                            <tr>
+                                <td className="text-center">—</td>
+                                <td className="text-center">—</td>
+                                <td className="text-center">—</td>
                             </tr>
-                        ))}
+                        ) : (
+                            coordinates.map(coord => (
+                                <tr key={coord.id}>
+                                    <td className="text-center">{coord.id}</td>
+                                    <td className="text-center">{coord.x}</td>
+                                    <td className="text-center">{coord.y}</td>
+                                </tr>
+                            ))
+                        )}
                         </tbody>
                     </table>
                     <div className={styles.pagination}>
@@ -66,7 +74,7 @@ const CoordinatesTable = ({ refresh }) => {
                                 key={page}
                                 onClick={() => handlePageChange(page)}
                                 className={currentPage === page ? styles.active : ''}
-                                style={{borderRadius: '6px'}}
+                                style={{ borderRadius: '6px' }}
                             >
                                 {page + 1}
                             </button>

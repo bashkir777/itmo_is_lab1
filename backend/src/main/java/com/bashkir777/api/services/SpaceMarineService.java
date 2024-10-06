@@ -72,6 +72,18 @@ public class SpaceMarineService {
                 .build();
     }
 
+    public PaginatedSpaceMarineDTO getSpaceMarinesByOrdenId(Long ordenId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<SpaceMarine> spaceMarinePage = spaceMarineRepository.findByOrdenId(ordenId, pageable);
+        List<SpaceMarineDTO> spaceMarineDTOs = spaceMarinePage.getContent().stream()
+                .map(SpaceMarine::toDTO)
+                .collect(Collectors.toList());
+        return PaginatedSpaceMarineDTO.builder()
+                .content(spaceMarineDTOs)
+                .totalPages(spaceMarinePage.getTotalPages())
+                .build();
+    }
+
     public SpaceMarine getSpaceMarineById(long id) throws RuntimeException {
         return spaceMarineRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("SpaceMarine not found"));
@@ -138,5 +150,17 @@ public class SpaceMarineService {
         spaceMarineRepository.save(existingSpaceMarine);
         updatedService.createRecord(getCurrentUser(), existingSpaceMarine);
         return new OperationInfo(true, "Space Marine successfully updated");
+    }
+
+    public PaginatedSpaceMarineDTO getSpaceMarinesWithoutOrden(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<SpaceMarine> spaceMarinePage = spaceMarineRepository.findByOrdenIsNull(pageable);
+        List<SpaceMarineDTO> spaceMarineDTOs = spaceMarinePage.getContent().stream()
+                .map(SpaceMarine::toDTO)
+                .collect(Collectors.toList());
+        return PaginatedSpaceMarineDTO.builder()
+                .content(spaceMarineDTOs)
+                .totalPages(spaceMarinePage.getTotalPages())
+                .build();
     }
 }

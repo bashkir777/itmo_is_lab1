@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../../css/ChaptersTable.module.css';
-import {CHAPTERS_INFO_URL} from "../../../tools/consts";
+import { CHAPTERS_INFO_URL } from "../../../tools/consts";
 
 const CHAPTERS_URL = '/api/v1/chapters';
 
@@ -51,13 +51,21 @@ const ChaptersTable = ({ refresh }) => {
                         </tr>
                         </thead>
                         <tbody>
-                        {chapters.map(chapter => (
-                            <tr key={chapter.id}>
-                                <td className="text-center">{chapter.id}</td>
-                                <td className="text-center">{chapter.name.substring(0, 15) + (chapter.name.length >= 15? "...": '')}</td>
-                                <td className="text-center">{chapter.world.substring(0, 15) +(chapter.world.length >= 15? "...": '')}</td>
+                        {chapters.length === 0 ? (
+                            <tr>
+                                <td className="text-center">—</td>
+                                <td className="text-center">—</td>
+                                <td className="text-center">—</td>
                             </tr>
-                        ))}
+                        ) : (
+                            chapters.map(chapter => (
+                                <tr key={chapter.id}>
+                                    <td className="text-center">{chapter.id}</td>
+                                    <td className="text-center">{chapter.name.substring(0, 15) + (chapter.name.length >= 15 ? "..." : '')}</td>
+                                    <td className="text-center">{chapter.world.substring(0, 15) + (chapter.world.length >= 15 ? "..." : '')}</td>
+                                </tr>
+                            ))
+                        )}
                         </tbody>
                     </table>
                     <div className={styles.pagination}>
@@ -66,7 +74,7 @@ const ChaptersTable = ({ refresh }) => {
                                 key={page}
                                 onClick={() => handlePageChange(page)}
                                 className={`${currentPage === page ? styles.active : ''}`}
-                                style={{borderRadius: '6px'}}
+                                style={{ borderRadius: '6px' }}
                             >
                                 {page + 1}
                             </button>

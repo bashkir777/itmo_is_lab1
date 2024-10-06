@@ -4,6 +4,7 @@ import { SPACE_MARINES_INFO_URL } from "../../../tools/consts";
 import { useDispatch } from "react-redux";
 import { setError, setErrorMessage } from "../../../redux/actions";
 import PatchSpaceMarinePage from "../pages/PatchSpaceMarinePage";
+import { getUserInfoFromToken } from "../../../tools/functions";
 
 const SPACE_MARINES_URL = '/api/v1/space-marines';
 
@@ -65,26 +66,6 @@ const SpaceMarineTable = () => {
         });
     };
 
-    const parseJwt = (token) => {
-        try {
-            return JSON.parse(atob(token.split('.')[1]));
-        } catch (e) {
-            return null;
-        }
-    };
-
-    const getUserInfoFromToken = () => {
-        const token = localStorage.getItem('refreshToken');
-        if (token) {
-            const decodedToken = parseJwt(token);
-            return {
-                username: decodedToken.sub,
-                role: decodedToken.role
-            };
-        }
-        return null;
-    };
-
     const userInfo = getUserInfoFromToken();
 
     const [formData, setFormData] = useState({
@@ -136,9 +117,8 @@ const SpaceMarineTable = () => {
 
     const backgroundImageUrl = 'url(/img/sea.jpg)';
 
-
     const backgroundStyle = {
-        backgroundImage:  backgroundImageUrl,
+        backgroundImage: backgroundImageUrl,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         height: '100vh',
@@ -154,7 +134,7 @@ const SpaceMarineTable = () => {
                 handleRefresh();
             }} />}
             <div className={styles.tableContainer}>
-                <h2 className="text-center" style={{marginBottom: '3%'}}>Space Marines</h2>
+                <h2 className="text-center" style={{ marginBottom: '3%' }}>Space Marines</h2>
                 <div className={styles.filterSortContainer}>
                     <div className={styles.filterContainer}>
                         <select
@@ -229,35 +209,50 @@ const SpaceMarineTable = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {sortedMarines.map(marine => {
-                                const canEdit = userInfo && (userInfo.role === 'ADMIN' || userInfo.username === marine.createdBy);
-                                const canDelete = userInfo && (userInfo.role === 'ADMIN' || userInfo.username === marine.createdBy);
+                            {sortedMarines.length === 0 ? (
+                                <tr>
+                                    <td className="text-center">—</td>
+                                    <td className="text-center">—</td>
+                                    <td className="text-center">—</td>
+                                    <td className="text-center">—</td>
+                                    <td className="text-center">—</td>
+                                    <td className="text-center">—</td>
+                                    <td className="text-center">—</td>
+                                    <td className="text-center">—</td>
+                                    <td className="text-center">—</td>
+                                    <td className="text-center">—</td>
+                                </tr>
+                            ) : (
+                                sortedMarines.map(marine => {
+                                    const canEdit = userInfo && (userInfo.role === 'ADMIN' || userInfo.username === marine.createdBy);
+                                    const canDelete = userInfo && (userInfo.role === 'ADMIN' || userInfo.username === marine.createdBy);
 
-                                return (
-                                    <tr key={marine.id}>
-                                        <td className="text-center">{marine.id}</td>
-                                        <td className="text-center">{marine.name.substring(0, 15) + (marine.name.length >= 15 ? "..." : '')}</td>
-                                        <td className="text-center">{marine.health}</td>
-                                        <td className="text-center">{marine.category}</td>
-                                        <td className="text-center">{marine.weaponType}</td>
-                                        <td className="text-center">{marine.meleeWeapon}</td>
-                                        <td className="text-center">{marine.chapterName.substring(0, 15) + (marine.chapterName.length >= 15 ? "..." : '')}</td>
-                                        <td className="text-center">{marine.chapterWorld.substring(0, 15) + (marine.chapterWorld.length >= 15 ? "..." : '')}</td>
-                                        <td className="text-center">{marine.x}, {marine.y}</td>
-                                        <td className="text-center">
-                                            {canEdit && (
-                                                <button onClick={() => {
-                                                    setFormData(marine);
-                                                    setShowPatchForm(true);
-                                                }} className={styles.actionButton} style={{ backgroundColor: "#ff8000" }}>Edit</button>
-                                            )}
-                                            {canDelete && (
-                                                <button onClick={() => handleDelete(marine.id)} className={styles.actionButton} style={{ backgroundColor: "#ff0000" }}>Delete</button>
-                                            )}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
+                                    return (
+                                        <tr key={marine.id}>
+                                            <td className="text-center">{marine.id}</td>
+                                            <td className="text-center">{marine.name.substring(0, 15) + (marine.name.length >= 15 ? "..." : '')}</td>
+                                            <td className="text-center">{marine.health}</td>
+                                            <td className="text-center">{marine.category}</td>
+                                            <td className="text-center">{marine.weaponType}</td>
+                                            <td className="text-center">{marine.meleeWeapon}</td>
+                                            <td className="text-center">{marine.chapterName.substring(0, 15) + (marine.chapterName.length >= 15 ? "..." : '')}</td>
+                                            <td className="text-center">{marine.chapterWorld.substring(0, 15) + (marine.chapterWorld.length >= 15 ? "..." : '')}</td>
+                                            <td className="text-center">{marine.x}, {marine.y}</td>
+                                            <td className="text-center">
+                                                {canEdit && (
+                                                    <button onClick={() => {
+                                                        setFormData(marine);
+                                                        setShowPatchForm(true);
+                                                    }} className={styles.actionButton} style={{ backgroundColor: "#ff8000" }}>Edit</button>
+                                                )}
+                                                {canDelete && (
+                                                    <button onClick={() => handleDelete(marine.id)} className={styles.actionButton} style={{ backgroundColor: "#ff0000" }}>Delete</button>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    );
+                                })
+                            )}
                             </tbody>
                         </table>
                         <div className={styles.pagination}>

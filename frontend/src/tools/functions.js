@@ -64,3 +64,22 @@ export const updateTokensOrLogout = async (setAccessToken, setRefreshToken, setA
         }
     }
 }
+const parseJwt = (token) => {
+    try {
+        return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+        return null;
+    }
+};
+
+export const getUserInfoFromToken = () => {
+    const token = localStorage.getItem('refreshToken');
+    if (token) {
+        const decodedToken = parseJwt(token);
+        return {
+            username: decodedToken.sub,
+            role: decodedToken.role
+        };
+    }
+    return null;
+};

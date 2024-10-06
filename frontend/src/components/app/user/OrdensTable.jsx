@@ -6,6 +6,8 @@ import { setError, setErrorMessage } from "../../../redux/actions";
 import { MDBBtn } from 'mdb-react-ui-kit';
 import {selectAuthenticated} from "../../../redux/selectors";
 import OrdenForm from "./OrdenForm";
+import {getUserInfoFromToken} from "../../../tools/functions";
+import ModifyOrden from "./ModifyOrden";
 
 const OrdensTable = () => {
     const [ordens, setOrdens] = useState([]);
@@ -13,6 +15,7 @@ const OrdensTable = () => {
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [initOrden, setInitOrden] = useState({id: '', title: ''});
+    const [showModifyOrden , setShowModifyOrden] = useState(false);
     const dispatch = useDispatch();
 
     const fetchOrdens = async () => {
@@ -53,26 +56,6 @@ const OrdensTable = () => {
         });
     };
 
-    const parseJwt = (token) => {
-        try {
-            return JSON.parse(atob(token.split('.')[1]));
-        } catch (e) {
-            return null;
-        }
-    };
-
-    const getUserInfoFromToken = () => {
-        const token = localStorage.getItem('refreshToken');
-        if (token) {
-            const decodedToken = parseJwt(token);
-            return {
-                username: decodedToken.sub,
-                role: decodedToken.role
-            };
-        }
-        return null;
-    };
-
     const userInfo = getUserInfoFromToken();
 
     const isAuthenticated = useSelector(selectAuthenticated);
@@ -98,6 +81,10 @@ const OrdensTable = () => {
                     handleRefresh={handleRefresh}
                 />
             )}
+            {
+                showModifyOrden
+                && <ModifyOrden ordenId={initOrden.id} close={()=>setShowModifyOrden(false)}/>
+            }
             {showEditForm &&(
                 <OrdenForm
                     close={() => setShowEditForm(false)}
@@ -155,7 +142,10 @@ const OrdensTable = () => {
                                             {canDelete && (
                                                 <MDBBtn className="ms-1" onClick={() => handleDelete(orden.id)} color="danger">Delete</MDBBtn>
                                             )}
-                                            <MDBBtn className="ms-1" onClick={() => { /* Handle soldiers button click */ }} color="success">Soldiers</MDBBtn>
+                                            <MDBBtn className="ms-1" onClick={() => {
+                                                setInitOrden(orden);
+                                                setShowModifyOrden(true);
+                                            }} color="success">Soldiers</MDBBtn>
                                         </td>
                                     </tr>
                                 );

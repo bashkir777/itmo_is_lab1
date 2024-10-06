@@ -1,8 +1,7 @@
-/* SpaceMarinesTable.module.css */
 .tableContainer {
-    margin: 20px;
+    margin: 20px 20px 0px;
     background-color: white;
-    padding: 2% 8% 1%;
+    padding: 2% 4% 1%;
     border-radius: 20px;
 }
 

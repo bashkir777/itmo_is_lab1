@@ -43,6 +43,21 @@ public class InfoController {
         return ResponseEntity.ok(spaceMarineService.getAllSpaceMarines(page, size));
     }
 
+    @GetMapping("/ordens/{ordenId}/space-marines")
+    public ResponseEntity<PaginatedSpaceMarineDTO> getSpaceMarinesByOrdenId(
+            @PathVariable Long ordenId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(spaceMarineService.getSpaceMarinesByOrdenId(ordenId, page, size));
+    }
+
+    @GetMapping("/space-marines/no-orden")
+    public ResponseEntity<PaginatedSpaceMarineDTO> getSpaceMarinesByOrdenId(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(spaceMarineService.getSpaceMarinesWithoutOrden(page, size));
+    }
+
     @GetMapping("/ordens")
     public ResponseEntity<List<OrdenDTO>> getAllOrdens() {
         return ResponseEntity.ok(ordenService.getAllOrdens());

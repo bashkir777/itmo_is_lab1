@@ -11,6 +11,7 @@ import SpaceMarineTable from "../user/SpaceMarineTable";
 import AdminApplications from "../user/AdminApplications";
 import UserAccountInfo from "../user/UserAccountInfo";
 import OrdensTable from "../user/OrdensTable";
+import ModifyOrden from "../user/ModifyOrden";
 
 
 const UserPage = () => {
