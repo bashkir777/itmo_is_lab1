@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react';
 import {MDBBtn} from "mdb-react-ui-kit";
-import {ACCEPT_APPLICATION, ADMIN_APPLICATIONS, REGISTER_URL, REJECT_APPLICATION} from "../../../tools/consts";
-import {useSelector} from "react-redux";
+import {ACCEPT_APPLICATION, ADMIN_APPLICATIONS, REJECT_APPLICATION} from "../../../tools/consts";
 
 const AdminApplications = () => {
     const [applications, setApplications] = useState([]);

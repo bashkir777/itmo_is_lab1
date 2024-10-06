@@ -9,6 +9,7 @@ import {selectAuthenticated} from "../../../redux/selectors";
 import CreateSpaceMarinePage from "./CreateSpaceMarinePage";
 import SpaceMarineTable from "../user/SpaceMarineTable";
 import AdminApplications from "../user/AdminApplications";
+import UserAccountInfo from "../user/UserAccountInfo";
 
 
 const UserPage = () => {
@@ -24,10 +25,7 @@ const UserPage = () => {
             }
             {
                 page === Pages.Account &&
-                <div style={{height:'100vh', display:'flex', justifyContent:'center', alignItems: 'center'}}>
-                    <Logout setPage={setPage}/>
-                </div>
-
+                <UserAccountInfo setPage={setPage}/>
             }
             {
                 page === Pages.List &&

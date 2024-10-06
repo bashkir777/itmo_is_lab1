@@ -1,0 +1,34 @@
+.userAccountInfo {
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 12px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.userAccountInfo h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.userInfoTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.userInfoTable th,
+.userInfoTable td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    font-size: 18px;
+    color: #555;
+}
+
+.userInfoTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}

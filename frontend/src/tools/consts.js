@@ -35,3 +35,5 @@ export const SPACE_MARINES_URL = '/api/v1/space-marines';
 export const SPACE_MARINES_INFO_URL = '/api/v1/info/space-marines';
 export const COORDINATES_INFO_URL = '/api/v1/info/coordinates';
 export const CHAPTERS_INFO_URL = '/api/v1/info/chapters';
+
+export const USER_INFO_URL = '/api/v1/user/';
