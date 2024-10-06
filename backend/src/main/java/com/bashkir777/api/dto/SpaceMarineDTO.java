@@ -18,7 +18,7 @@ import java.time.ZonedDateTime;
 public class SpaceMarineDTO {
 
     @Nullable
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = "Name cannot be blank")
     private String name;

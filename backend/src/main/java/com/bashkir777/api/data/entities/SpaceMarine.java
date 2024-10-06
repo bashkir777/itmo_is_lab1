@@ -19,7 +19,7 @@ public class SpaceMarine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
 
     @NotBlank(message = "Name cannot be blank")
     @Column(nullable = false)
@@ -66,6 +66,10 @@ public class SpaceMarine {
     public void prePersist() {
         this.creationDate = ZonedDateTime.now();
     }
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "orden_id", referencedColumnName = "id", nullable = true)
+    private Orden orden;
 
     public SpaceMarineDTO toDTO() {
         SpaceMarineDTO dto = new SpaceMarineDTO();

@@ -1,9 +1,6 @@
 package com.bashkir777.api.services;
 
-import com.bashkir777.api.data.entities.Chapter;
-import com.bashkir777.api.data.entities.Coordinates;
-import com.bashkir777.api.data.entities.SpaceMarine;
-import com.bashkir777.api.data.entities.User;
+import com.bashkir777.api.data.entities.*;
 import com.bashkir777.api.data.repositories.ChapterRepository;
 import com.bashkir777.api.data.repositories.CoordinatesRepository;
 import com.bashkir777.api.data.repositories.SpaceMarineRepository;
@@ -75,12 +72,12 @@ public class SpaceMarineService {
                 .build();
     }
 
-    public SpaceMarine getSpaceMarineById(Integer id) throws RuntimeException {
+    public SpaceMarine getSpaceMarineById(long id) throws RuntimeException {
         return spaceMarineRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("SpaceMarine not found"));
     }
 
-    public OperationInfo deleteSpaceMarine(int id) throws RuntimeException{
+    public OperationInfo deleteSpaceMarine(long id) throws RuntimeException{
 
         SpaceMarine spaceMarine = spaceMarineRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("SpaceMarine not found"));
@@ -93,6 +90,18 @@ public class SpaceMarineService {
         } else {
             throw new RuntimeException("You do not have permission to delete this SpaceMarine");
         }
+    }
+
+    public OperationInfo addMarineToOrden(SpaceMarine spaceMarine, Orden orden) {
+        spaceMarine.setOrden(orden);
+        spaceMarineRepository.save(spaceMarine);
+        return new OperationInfo(true, "Space Marine successfully added to orden");
+    }
+
+    public OperationInfo removeMarineFromOrden(SpaceMarine spaceMarine) {
+        spaceMarine.setOrden(null);
+        spaceMarineRepository.save(spaceMarine);
+        return new OperationInfo(true, "Space Marine successfully removed from orden");
     }
 
     public OperationInfo patchSpaceMarine(@Valid SpaceMarineDTO dto) {
