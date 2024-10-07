@@ -77,6 +77,14 @@ public class InfoController {
         return spaceMarineService.getSpaceMarineById(id).toDTO();
     }
 
+    @GetMapping("/space-marines/search")
+    public ResponseEntity<List<SpaceMarineDTO>> searchSpaceMarinesByName(@RequestParam String prefix) {
+        List<SpaceMarineDTO> spaceMarines
+                = spaceMarineService.findByNameStartingWith(prefix).
+                stream().map(SpaceMarine::toDTO).toList();
+        return ResponseEntity.ok(spaceMarines);
+    }
+
     @ExceptionHandler({RuntimeException.class})
     private ResponseEntity<OperationInfo> badCredentials(RuntimeException exception) {
         exception.printStackTrace();

@@ -45,3 +45,4 @@ export const SPACE_MARINE_WITHOUT_ORDEN = '/api/v1/info/space-marines/no-orden'
 export const ADD_MARINE_TO_ORDEN = '/api/v1/ordens/space-marine';
 
 export const MOST_RECENTLY_ADDED_MARINE_URL = SPACE_MARINES_INFO_URL + '/most-recently-created'
+export const SEARCH_SPACE_MARINES_BY_NAME_PREFIX_URL = SPACE_MARINES_INFO_URL + '/search'

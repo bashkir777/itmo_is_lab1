@@ -169,4 +169,8 @@ public class SpaceMarineService {
         return spaceMarineRepository.findFirstByOrderByCreationDateDesc();
     }
 
+    public List<SpaceMarine> findByNameStartingWith(String prefix) {
+        return spaceMarineRepository.findByNameStartingWithIgnoreCase(prefix);
+    }
+
 }

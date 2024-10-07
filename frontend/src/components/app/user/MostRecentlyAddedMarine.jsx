@@ -28,7 +28,7 @@ const MostRecentlyAddedMarine = () => {
 
     return (
 
-            <div className={styles.tableContainer} style={{paddingBottom: '3%', borderRadius: '12px'}}>
+            <div className={styles.tableContainer} style={{paddingBottom: '3%', borderRadius: '12px', marginTop: '0'}}>
                 <h2 className="text-center" style={{ marginBottom: '3%' }}>Most Recently Added Marine</h2>
                 <button onClick={fetchMostRecentlyAddedMarine} className={styles.refreshButton}>Refresh</button>
                 {loading ? (
