@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import ChaptersTable from "../user/ChaptersTable";
-import SpaceMarineForm from "../user/SpaceMarineForm";
-import CoordinatesTable from "../user/CoordinatesTable";
+import ChaptersTable from "../user/space-marines/ChaptersTable";
+import SpaceMarineForm from "../user/space-marines/SpaceMarineForm";
+import CoordinatesTable from "../user/space-marines/CoordinatesTable";
 import styles from '../../../css/PatchSpaceMarinePage.module.css'; // Предполагается, что у вас есть соответствующий CSS-модуль
 
 const PatchSpaceMarinePage = ({ initialData, close }) => {

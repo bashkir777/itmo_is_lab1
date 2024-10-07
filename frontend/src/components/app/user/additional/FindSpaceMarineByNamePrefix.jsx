@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styles from '../../../css/SpaceMarinesTable.module.css';
-import { SEARCH_SPACE_MARINES_BY_NAME_PREFIX_URL } from "../../../tools/consts";
+import styles from '../../../../css/SpaceMarinesTable.module.css';
+import { SEARCH_SPACE_MARINES_BY_NAME_PREFIX_URL } from "../../../../tools/consts";
 
 const FindSpaceMarineByNamePrefix = () => {
     const [prefix, setPrefix] = useState('');
@@ -28,7 +28,7 @@ const FindSpaceMarineByNamePrefix = () => {
     };
 
     return (
-        <div className={styles.tableContainer} style={{ paddingBottom: '3%', borderRadius: '12px' }}>
+        <div className={styles.tableContainer} style={{ paddingBottom: '3%', borderRadius: '12px', width: '70%'}}>
             <h2 className="text-center" style={{ marginBottom: '3%' }}>Find Space Marines by Name Prefix</h2>
             <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center' }}>
                 <input

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../../../css/SpaceMarinesTable.module.css';
-import { MOST_RECENTLY_ADDED_MARINE_URL } from "../../../tools/consts";
+import styles from '../../../../css/SpaceMarinesTable.module.css';
+import { MOST_RECENTLY_ADDED_MARINE_URL } from "../../../../tools/consts";
 
 const MostRecentlyAddedMarine = () => {
     const [marine, setMarine] = useState(null);
@@ -28,7 +28,7 @@ const MostRecentlyAddedMarine = () => {
 
     return (
 
-            <div className={styles.tableContainer} style={{paddingBottom: '3%', borderRadius: '12px', marginTop: '0'}}>
+            <div className={styles.tableContainer} style={{paddingBottom: '3%', borderRadius: '12px', marginTop: '0', width: '70%'}}>
                 <h2 className="text-center" style={{ marginBottom: '3%' }}>Most Recently Added Marine</h2>
                 <button onClick={fetchMostRecentlyAddedMarine} className={styles.refreshButton}>Refresh</button>
                 {loading ? (

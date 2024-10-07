@@ -6,11 +6,11 @@ import Navbar from "../user/Navbar";
 import {useSelector} from "react-redux";
 import {selectAuthenticated} from "../../../redux/selectors";
 import CreateSpaceMarinePage from "./CreateSpaceMarinePage";
-import SpaceMarineTable from "../user/SpaceMarineTable";
-import AdminApplications from "../user/AdminApplications";
-import UserAccountInfo from "../user/UserAccountInfo";
-import OrdensTable from "../user/OrdensTable";
-import AdditionalWrapper from "../user/AdditionalWrapper";
+import SpaceMarineTable from "../user/space-marines/SpaceMarineTable";
+import AdminApplications from "../user/applications/AdminApplications";
+import UserAccountInfoPage from "./UserAccountInfoPage";
+import OrdensTable from "../user/ordens/OrdensTable";
+import AdditionalWrapper from "../user/additional/AdditionalWrapper";
 
 
 const UserPage = () => {
@@ -26,7 +26,7 @@ const UserPage = () => {
             }
             {
                 page === Pages.Account &&
-                <UserAccountInfo setPage={setPage}/>
+                <UserAccountInfoPage setPage={setPage}/>
             }
             {
                 page === Pages.List &&

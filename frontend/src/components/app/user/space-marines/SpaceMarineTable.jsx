@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../../../css/SpaceMarinesTable.module.css';
-import { SPACE_MARINES_INFO_URL } from "../../../tools/consts";
+import styles from '../../../../css/SpaceMarinesTable.module.css';
+import { SPACE_MARINES_INFO_URL } from "../../../../tools/consts";
 import { useDispatch } from "react-redux";
-import { setError, setErrorMessage } from "../../../redux/actions";
-import PatchSpaceMarinePage from "../pages/PatchSpaceMarinePage";
-import { getUserInfoFromToken } from "../../../tools/functions";
+import { setError, setErrorMessage } from "../../../../redux/actions";
+import PatchSpaceMarinePage from "../../pages/PatchSpaceMarinePage";
+import { getUserInfoFromToken } from "../../../../tools/functions";
 
 const SPACE_MARINES_URL = '/api/v1/space-marines';
 

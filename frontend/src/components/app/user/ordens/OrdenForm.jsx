@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MDBBtn, MDBInput } from 'mdb-react-ui-kit';
-import styles from '../../../css/CreateOrdenForm.module.css';
-import { ORDENS_URL } from "../../../tools/consts";
+import styles from '../../../../css/CreateOrdenForm.module.css';
+import { ORDENS_URL } from "../../../../tools/consts";
 
 const OrdenForm = ({ close, handleRefresh, init = {} }) => {
     const [title, setTitle] = useState(init.title || '');

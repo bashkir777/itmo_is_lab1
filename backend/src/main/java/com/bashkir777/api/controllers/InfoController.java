@@ -1,6 +1,7 @@
 package com.bashkir777.api.controllers;
 
 import com.bashkir777.api.data.entities.SpaceMarine;
+import com.bashkir777.api.data.enums.Weapon;
 import com.bashkir777.api.dto.*;
 import com.bashkir777.api.services.ChaptersService;
 import com.bashkir777.api.services.CoordinatesService;
@@ -85,9 +86,18 @@ public class InfoController {
         return ResponseEntity.ok(spaceMarines);
     }
 
+    @GetMapping("/space-marines/weapon-less-than")
+    public ResponseEntity<List<SpaceMarineDTO>> findByWeaponTypeLessThan(@RequestParam String weaponType)
+            throws IllegalArgumentException{
+        List<SpaceMarineDTO> spaceMarines
+                = spaceMarineService.findByWeaponTypeLessThan(Weapon.valueOf(weaponType)).
+                stream().map(SpaceMarine::toDTO).toList();
+        return ResponseEntity.ok(spaceMarines);
+    }
+
+
     @ExceptionHandler({RuntimeException.class})
-    private ResponseEntity<OperationInfo> badCredentials(RuntimeException exception) {
-        exception.printStackTrace();
+    private ResponseEntity<OperationInfo> badRequest(RuntimeException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(OperationInfo.builder().success(false)
                         .message(exception.getMessage()).build());

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ShortSpaceMarineTable from "./ShortSpaceMarineTable";
-import styles from '../../../css/ModifyOrden.module.css';
+import styles from '../../../../css/ModifyOrden.module.css';
 import MarinesOfOrden from "./MarinesOfOrden";
 
 const ModifyOrden = ({ ordenId, close }) => {

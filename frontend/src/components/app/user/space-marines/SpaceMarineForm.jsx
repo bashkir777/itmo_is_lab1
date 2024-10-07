@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { SPACE_MARINES_URL } from "../../../tools/consts";
-import styles from '../../../css/SpaceMarineForm.module.css';
+import { SPACE_MARINES_URL } from "../../../../tools/consts";
+import styles from '../../../../css/SpaceMarineForm.module.css';
 import { useDispatch } from "react-redux";
-import { setError, setErrorMessage, setSuccess, setSuccessMessage } from "../../../redux/actions";
+import { setError, setErrorMessage, setSuccess, setSuccessMessage } from "../../../../redux/actions";
 
 const SpaceMarineForm = ({ onSuccess, initialData = null }) => {
 

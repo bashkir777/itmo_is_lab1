@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../../../css/OrdensTable.module.css';
-import { ORDENS_INFO_URL, ORDENS_URL } from "../../../tools/consts";
+import styles from '../../../../css/OrdensTable.module.css';
+import { ORDENS_INFO_URL, ORDENS_URL } from "../../../../tools/consts";
 import {useDispatch, useSelector} from "react-redux";
-import { setError, setErrorMessage } from "../../../redux/actions";
+import { setError, setErrorMessage } from "../../../../redux/actions";
 import { MDBBtn } from 'mdb-react-ui-kit';
-import {selectAuthenticated} from "../../../redux/selectors";
+import {selectAuthenticated} from "../../../../redux/selectors";
 import OrdenForm from "./OrdenForm";
-import {getUserInfoFromToken} from "../../../tools/functions";
+import {getUserInfoFromToken} from "../../../../tools/functions";
 import ModifyOrden from "./ModifyOrden";
 
 const OrdensTable = () => {

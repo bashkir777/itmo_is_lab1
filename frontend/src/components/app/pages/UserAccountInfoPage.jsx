@@ -4,7 +4,7 @@ import Logout from "../../auth/forms/Logout";
 import {USER_INFO_URL} from "../../../tools/consts";
 import {decodeJwtToken} from "../../../tools/functions";
 
-const UserAccountInfo = ({setPage}) => {
+const UserAccountInfoPage = ({setPage}) => {
     const [userInfo, setUserInfo] = React.useState({firstname: '', username: '', role: '', lastname: ''});
 
     const backgroundImageUrl = 'url(/img/sea.jpg)';
@@ -63,4 +63,4 @@ const UserAccountInfo = ({setPage}) => {
     );
 };
 
-export default UserAccountInfo;
+export default UserAccountInfoPage;

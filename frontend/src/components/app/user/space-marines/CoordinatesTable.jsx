@@ -1,34 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../../../css/ChaptersTable.module.css';
-import { CHAPTERS_INFO_URL } from "../../../tools/consts";
+import styles from '../../../../css/CoordinatesTable.module.css';
+import { COORDINATES_INFO_URL } from "../../../../tools/consts";
 
-const CHAPTERS_URL = '/api/v1/chapters';
+const COORDINATES_URL = '/api/v1/coordinates';
 
-const ChaptersTable = ({ refresh }) => {
-    const [chapters, setChapters] = useState([]);
+const CoordinatesTable = ({ refresh }) => {
+    const [coordinates, setCoordinates] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
 
-    const fetchChapters = async (page) => {
+    const fetchCoordinates = async (page) => {
         setLoading(true);
         try {
-            const response = await fetch(`${CHAPTERS_INFO_URL}?page=${page}&size=10`);
+            const response = await fetch(`${COORDINATES_INFO_URL}?page=${page}&size=10`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            setChapters(data.content);
+            setCoordinates(data.content);
             setTotalPages(data.totalPages);
         } catch (error) {
-            console.error('Error fetching chapters:', error);
+            console.error('Error fetching coordinates:', error);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchChapters(currentPage);
+        fetchCoordinates(currentPage);
     }, [currentPage, refresh]);
 
     const handlePageChange = (page) => {
@@ -37,32 +37,32 @@ const ChaptersTable = ({ refresh }) => {
 
     return (
         <div className={styles.tableContainer}>
-            <h2 className="text-center">Chapters</h2>
+            <h2>Coordinates</h2>
             {loading ? (
                 <p>Loading...</p>
             ) : (
                 <>
-                    <table className={styles.chaptersTable}>
+                    <table className={styles.coordinatesTable}>
                         <thead>
                         <tr>
                             <th className="text-center">ID</th>
-                            <th className="text-center">Name</th>
-                            <th className="text-center">World</th>
+                            <th className="text-center">X</th>
+                            <th className="text-center">Y</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {chapters.length === 0 ? (
+                        {coordinates.length === 0 ? (
                             <tr>
                                 <td className="text-center">—</td>
                                 <td className="text-center">—</td>
                                 <td className="text-center">—</td>
                             </tr>
                         ) : (
-                            chapters.map(chapter => (
-                                <tr key={chapter.id}>
-                                    <td className="text-center">{chapter.id}</td>
-                                    <td className="text-center">{chapter.name.substring(0, 15) + (chapter.name.length >= 15 ? "..." : '')}</td>
-                                    <td className="text-center">{chapter.world.substring(0, 15) + (chapter.world.length >= 15 ? "..." : '')}</td>
+                            coordinates.map(coord => (
+                                <tr key={coord.id}>
+                                    <td className="text-center">{coord.id}</td>
+                                    <td className="text-center">{coord.x}</td>
+                                    <td className="text-center">{coord.y}</td>
                                 </tr>
                             ))
                         )}
@@ -73,7 +73,7 @@ const ChaptersTable = ({ refresh }) => {
                             <button
                                 key={page}
                                 onClick={() => handlePageChange(page)}
-                                className={`${currentPage === page ? styles.active : ''}`}
+                                className={currentPage === page ? styles.active : ''}
                                 style={{ borderRadius: '6px' }}
                             >
                                 {page + 1}
@@ -86,4 +86,4 @@ const ChaptersTable = ({ refresh }) => {
     );
 };
 
-export default ChaptersTable;
+export default CoordinatesTable;

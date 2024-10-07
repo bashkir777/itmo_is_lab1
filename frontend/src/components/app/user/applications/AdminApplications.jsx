@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MDBBtn } from "mdb-react-ui-kit";
-import { ACCEPT_APPLICATION, ADMIN_APPLICATIONS, REJECT_APPLICATION } from "../../../tools/consts";
-import styles from '../../../css/SpaceMarinesTable.module.css';
+import { ACCEPT_APPLICATION, ADMIN_APPLICATIONS, REJECT_APPLICATION } from "../../../../tools/consts";
+import styles from '../../../../css/SpaceMarinesTable.module.css';
 
 const AdminApplications = () => {
     const [applications, setApplications] = useState([]);

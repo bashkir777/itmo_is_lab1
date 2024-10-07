@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import styles from '../../../css/SpaceMarinesTable.module.css';
-import { ADD_MARINE_TO_ORDEN, SPACE_MARINE_WITHOUT_ORDEN } from "../../../tools/consts";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getUserInfoFromToken } from "../../../tools/functions";
+import { ADD_MARINE_TO_ORDEN, ORDENS_INFO_URL } from "../../../../tools/consts";
+import { getUserInfoFromToken } from "../../../../tools/functions";
+import styles from "../../../../css/SpaceMarinesTable.module.css";
 import { MDBBtn } from "mdb-react-ui-kit";
 
-const ShortSpaceMarineTable = ({ ordenId, refresh, handleRefresh }) => {
+const MarinesOfOrden = ({ ordenId, refresh, handleRefresh }) => {
     const [spaceMarines, setSpaceMarines] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
@@ -16,7 +16,7 @@ const ShortSpaceMarineTable = ({ ordenId, refresh, handleRefresh }) => {
     const fetchSpaceMarines = async (page) => {
         setLoading(true);
         try {
-            const response = await fetch(`${SPACE_MARINE_WITHOUT_ORDEN}?page=${page}&size=10`);
+            const response = await fetch(`${ORDENS_INFO_URL}/${ordenId}/space-marines?page=${page}&size=10`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -30,10 +30,10 @@ const ShortSpaceMarineTable = ({ ordenId, refresh, handleRefresh }) => {
         }
     };
 
-    const addSpaceMarineHandler = (marineId) => {
+    const deleteSpaceMarineHandler = (marineId) => {
         fetch(`${ADD_MARINE_TO_ORDEN}`, {
-            method: 'POST',
-            body: JSON.stringify({ spaceMarineId: marineId, ordenId: ordenId }),
+            method: 'DELETE',
+            body: JSON.stringify({ spaceMarineId: marineId }),
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
@@ -42,10 +42,10 @@ const ShortSpaceMarineTable = ({ ordenId, refresh, handleRefresh }) => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             } else {
-                console.log("Marine successfully added to orden");
-                handleRefresh(); // Обновляем список после добавления
+                console.log("Marine successfully deleted orden");
+                handleRefresh(); // Обновляем список после удаления
             }
-        }).catch(error => console.error('Error adding space marine to orden:', error));
+        }).catch(error => console.error('Error deleting space marine to orden:', error));
     };
 
     useEffect(() => {
@@ -60,7 +60,7 @@ const ShortSpaceMarineTable = ({ ordenId, refresh, handleRefresh }) => {
 
     return (
         <div className={styles.tableContainer}>
-            <h2 className="text-center" style={{ marginBottom: '3%' }}>Free Space Marines</h2>
+            <h2 className="text-center" style={{ marginBottom: '3%' }}>Space Marines of this Orden</h2>
             {loading ? (
                 <p>Loading...</p>
             ) : (
@@ -88,7 +88,7 @@ const ShortSpaceMarineTable = ({ ordenId, refresh, handleRefresh }) => {
                             </tr>
                         ) : (
                             spaceMarines.map(marine => {
-                                const canAdd = userInfo && (userInfo.role === 'ADMIN' || userInfo.username === marine.createdBy);
+                                const canExpel = userInfo && (userInfo.role === 'ADMIN' || userInfo.username === marine.createdBy);
 
                                 return (
                                     <tr key={marine.id}>
@@ -98,10 +98,8 @@ const ShortSpaceMarineTable = ({ ordenId, refresh, handleRefresh }) => {
                                         <td className="text-center">{marine.chapterName.substring(0, 15) + (marine.chapterName.length >= 15 ? "..." : '')}</td>
                                         <td className="text-center">{marine.chapterWorld.substring(0, 15) + (marine.chapterWorld.length >= 15 ? "..." : '')}</td>
                                         <td className="text-center">
-                                            {canAdd && (
-                                                <MDBBtn onClick={() => {
-                                                    addSpaceMarineHandler(marine.id);
-                                                }} style={{ color: "white" }} color="success">Add</MDBBtn>
+                                            {canExpel && (
+                                                <MDBBtn color="danger" size="sm" onClick={() => { deleteSpaceMarineHandler(marine.id) }}>Expel</MDBBtn>
                                             )}
                                         </td>
                                     </tr>
@@ -128,4 +126,4 @@ const ShortSpaceMarineTable = ({ ordenId, refresh, handleRefresh }) => {
     );
 };
 
-export default ShortSpaceMarineTable;
+export default MarinesOfOrden;

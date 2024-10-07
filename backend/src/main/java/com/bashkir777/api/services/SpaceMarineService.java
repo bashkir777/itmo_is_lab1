@@ -1,6 +1,7 @@
 package com.bashkir777.api.services;
 
 import com.bashkir777.api.data.entities.*;
+import com.bashkir777.api.data.enums.Weapon;
 import com.bashkir777.api.data.repositories.ChapterRepository;
 import com.bashkir777.api.data.repositories.CoordinatesRepository;
 import com.bashkir777.api.data.repositories.SpaceMarineRepository;
@@ -171,6 +172,10 @@ public class SpaceMarineService {
 
     public List<SpaceMarine> findByNameStartingWith(String prefix) {
         return spaceMarineRepository.findByNameStartingWithIgnoreCase(prefix);
+    }
+
+    public List<SpaceMarine> findByWeaponTypeLessThan(Weapon weapon) {
+        return spaceMarineRepository.findByWeaponTypeLessThan(weapon);
     }
 
 }
