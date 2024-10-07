@@ -5,7 +5,7 @@ import  "../../../css/main.css"
 import {useDispatch} from "react-redux";
 import {
     setAccessToken, setAuthenticated, setError, setErrorMessage,
-    setRefreshToken, setSuccess, setSuccessMessage
+    setRefreshToken, setRole, setSuccess, setSuccessMessage
 } from "../../../redux/actions";
 
 const Logout = ({setPage}) => {
@@ -38,6 +38,7 @@ const Logout = ({setPage}) => {
             dispatch(setAccessToken(''));
             dispatch(setRefreshToken(''));
             dispatch(setAuthenticated(false));
+            dispatch(setRole(''));
         })
 
 

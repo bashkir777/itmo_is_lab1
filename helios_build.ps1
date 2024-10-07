@@ -3,6 +3,7 @@ $path_to_backend_resources = "$path_to_root\backend\src\main\resources"
 $path_to_frontend_build = "$path_to_root\frontend\build"
 
 Set-Location frontend
+npm install
 npm run build
 
 Set-Location $path_to_backend_resources
@@ -24,3 +25,5 @@ Set-Location "$path_to_root/backend"
 mvn clean package -DskipTests
 
 Set-Location $path_to_root
+
+Copy-Item "$path_to_root/backend/target/backend.jar" -Destination "$path_to_root"
