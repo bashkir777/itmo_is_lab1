@@ -11,6 +11,7 @@ import AdminApplications from "../user/applications/AdminApplications";
 import UserAccountInfoPage from "./UserAccountInfoPage";
 import OrdensTable from "../user/ordens/OrdensTable";
 import AdditionalWrapper from "../user/additional/AdditionalWrapper";
+import InfiniteCoordinates from "../user/visualization/InfiniteCoordinates";
 
 
 const UserPage = () => {
@@ -47,6 +48,10 @@ const UserPage = () => {
 
             {
                 page === Pages.Additional && <AdditionalWrapper/>
+            }
+
+            {
+                page === Pages.Visualization && <InfiniteCoordinates/>
             }
 
         </>

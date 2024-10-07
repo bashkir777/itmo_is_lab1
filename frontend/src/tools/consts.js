@@ -17,7 +17,8 @@ export const Pages = {
     Account: 'Account',
     Applications: 'Applications',
     Ordens: "Ordens",
-    Additional: 'Additional'
+    Additional: 'Additional',
+    Visualization: 'Visualization'
 }
 
 
