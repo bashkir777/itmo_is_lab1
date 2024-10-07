@@ -1,5 +1,6 @@
 package com.bashkir777.api.controllers;
 
+import com.bashkir777.api.data.entities.SpaceMarine;
 import com.bashkir777.api.dto.*;
 import com.bashkir777.api.services.ChaptersService;
 import com.bashkir777.api.services.CoordinatesService;
@@ -56,6 +57,14 @@ public class InfoController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(spaceMarineService.getSpaceMarinesWithoutOrden(page, size));
+    }
+
+    @GetMapping("/space-marines/most-recently-created")
+    public ResponseEntity<SpaceMarineDTO> getMostRecentlyCreatedSpaceMarines() {
+        var optionalSpaceMarine = spaceMarineService.getMostRecentlyCreatedSpaceMarine();
+        return optionalSpaceMarine.
+                map(spaceMarine -> ResponseEntity.ok(spaceMarine.toDTO())).
+                orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/ordens")

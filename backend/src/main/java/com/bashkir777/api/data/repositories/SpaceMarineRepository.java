@@ -5,7 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface SpaceMarineRepository extends JpaRepository<SpaceMarine, Long> {
     Page<SpaceMarine> findByOrdenId(Long ordenId, Pageable pageable);
     Page<SpaceMarine> findByOrdenIsNull(Pageable pageable);
+    Optional<SpaceMarine> findFirstByOrderByCreationDateDesc();
 }

@@ -16,7 +16,8 @@ export const Pages = {
     Login: 'Login',
     Account: 'Account',
     Applications: 'Applications',
-    Ordens: "Ordens"
+    Ordens: "Ordens",
+    Additional: 'Additional'
 }
 
 
@@ -42,3 +43,5 @@ export const ORDENS_INFO_URL = '/api/v1/info/ordens';
 export const ORDENS_URL = '/api/v1/ordens';
 export const SPACE_MARINE_WITHOUT_ORDEN = '/api/v1/info/space-marines/no-orden'
 export const ADD_MARINE_TO_ORDEN = '/api/v1/ordens/space-marine';
+
+export const MOST_RECENTLY_ADDED_MARINE_URL = SPACE_MARINES_INFO_URL + '/most-recently-created'
