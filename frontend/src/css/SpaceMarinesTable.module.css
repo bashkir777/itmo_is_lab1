@@ -110,3 +110,24 @@
 .filterButton:hover, .sortButton:hover {
     background-color: #0b87cd;
 }
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Смок */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: white;
+    padding: 2% 4% 1%;
+    border-radius: 20px;
+    width: 70%;
+    position: relative;
+}

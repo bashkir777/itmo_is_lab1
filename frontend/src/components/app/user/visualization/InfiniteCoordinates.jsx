@@ -1,6 +1,7 @@
 /* global Desmos */
-import React, { useEffect, useRef, useState } from 'react';
-import { SPACE_MARINES_INFO_URL } from "../../../../tools/consts";
+import React, {useEffect, useRef, useState} from 'react';
+import {SPACE_MARINES_INFO_URL} from "../../../../tools/consts";
+import SingleSpaceMarine from "../space-marines/SingleSpaceMarine";
 
 
 const generateColorFromName = (name) => {
@@ -16,7 +17,9 @@ const InfiniteCoordinates = () => {
     const [calculator, setCalculator] = useState(null);
     const calculatorRef = useRef(null);
     const [marines, setMarines] = useState([]);
-    const hitboxRadius = 0.5;
+    const [showInfo, setShowInfo] = useState(false);
+    const [displayedMarine, setDisplayedMarine] = useState({});
+    const hitboxRadius = 0.3;
 
     const fetchSpaceMarines = async () => {
         let page = 0;
@@ -90,8 +93,8 @@ const InfiniteCoordinates = () => {
             const elt = document.getElementById('calculator');
 
             const handleClick = (event) => {
-                const { offsetX, offsetY } = event;
-                const graphCoordinates = calculator.pixelsToMath({ x: offsetX, y: offsetY });
+                const {offsetX, offsetY} = event;
+                const graphCoordinates = calculator.pixelsToMath({x: offsetX, y: offsetY});
                 console.log('Координаты клика: ', graphCoordinates);
 
                 marines.forEach((marine, index) => {
@@ -100,7 +103,8 @@ const InfiniteCoordinates = () => {
                         const distanceY = Math.abs(graphCoordinates.y - marine.y);
 
                         if (distanceX < hitboxRadius && distanceY < hitboxRadius) {
-                            console.log(`Космодесантник ${marine.name} (id: ${marine.id})`, marine);
+                            setDisplayedMarine(marine);
+                            setShowInfo(true);
                         }
                     }
                 });
@@ -115,13 +119,18 @@ const InfiniteCoordinates = () => {
     }, [calculator, marines]);
 
     return (
-        <div>
-            <div
-                id="calculator"
-                style={{ width: '100%', height: '700px' }}
-                ref={calculatorRef}
-            ></div>
-        </div>
+        <>{showInfo && <SingleSpaceMarine marine={displayedMarine} onClose={() => {
+            setShowInfo(false);
+            setDisplayedMarine({});
+        }} />}
+            <div>
+                <div
+                    id="calculator"
+                    style={{width: '100%', height: '700px'}}
+                    ref={calculatorRef}
+                ></div>
+            </div>
+        </>
     );
 };
 
