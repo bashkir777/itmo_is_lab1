@@ -17,6 +17,10 @@ const Logout = ({setPage}) => {
         if(refreshToken === null || refreshToken === undefined){
             dispatch(setError(true));
             dispatch(setErrorMessage('Вы не вошли в аккаунт'));
+            setTimeout(() => {
+                dispatch(setError(false));
+                dispatch(setErrorMessage(""));
+            }, 3000);
             return;
         }
         fetch(LOGOUT_URL, {
@@ -31,6 +35,10 @@ const Logout = ({setPage}) => {
             .then(data => {
                 dispatch(setSuccess(true));
                 dispatch(setSuccessMessage('Вы успешно вышли из аккаунта.'));
+                setTimeout(() => {
+                    dispatch(setSuccess(false));
+                    dispatch(setSuccessMessage(""));
+                }, 3000);
                 setPage(Pages.Login);
             }).finally(() => {
             localStorage.removeItem("refreshToken");

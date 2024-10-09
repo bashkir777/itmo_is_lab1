@@ -58,26 +58,46 @@ const RegisterForm = ({setAuthentication, mode}) => {
             || userData.firstname.length === 0 || userData.lastname.length === 0) {
             dispatch(setError(true));
             dispatch(setErrorMessage("Пожалуйста заполните все поля формы"));
+            setTimeout(() => {
+                dispatch(setError(false));
+                dispatch(setErrorMessage(""));
+            }, 3000);
             return;
         }
         if (userData.password.length < 7) {
             dispatch(setError(true));
             dispatch(setErrorMessage("Пароль слишком короткий. Пожалуйста, придумайте другой пароль."));
+            setTimeout(() => {
+                dispatch(setError(false));
+                dispatch(setErrorMessage(""));
+            }, 3000);
             return;
         }
         if (userData.firstname.length < 7) {
             dispatch(setError(true));
             dispatch(setErrorMessage("Имя слишком короткое. Пожалуйста, введите свое полное имя."));
+            setTimeout(() => {
+                dispatch(setError(false));
+                dispatch(setErrorMessage(""));
+            }, 3000);
             return;
         }
         if (userData.lastname.length < 7) {
             dispatch(setError(true));
             dispatch(setErrorMessage("Фамилия слишком короткая. Пожалуйста, введите свою фамилию."));
+            setTimeout(() => {
+                dispatch(setError(false));
+                dispatch(setErrorMessage(""));
+            }, 3000);
             return;
         }
         if (userData.username.length < 7) {
             dispatch(setError(true));
             dispatch(setErrorMessage("Имя пользователя слишком короткое. Пожалуйста, придумайте другое."));
+            setTimeout(() => {
+                dispatch(setError(false));
+                dispatch(setErrorMessage(""));
+            }, 3000);
             return;
         }
 
@@ -95,6 +115,10 @@ const RegisterForm = ({setAuthentication, mode}) => {
             } else {
                 dispatch(setError(true));
                 dispatch(setErrorMessage("Это имя пользователя уже занято. Пожалуйста, придумайте другое."));
+                setTimeout(() => {
+                    dispatch(setError(false));
+                    dispatch(setErrorMessage(""));
+                }, 3000);
             }
         })
             .then(data => {
@@ -102,8 +126,16 @@ const RegisterForm = ({setAuthentication, mode}) => {
                     dispatch(setSuccess(true));
                     if (mode === 'register') {
                         dispatch(setSuccessMessage("Вы были успешно зарегистрированы. Пожалуйста, войдите в аккаунт"));
+                        setTimeout(() => {
+                            dispatch(setSuccess(false));
+                            dispatch(setSuccessMessage(""));
+                        }, 3000);
                     } else {
                         dispatch(setSuccessMessage("Заявка была создана и отправлена на рассмотрение. Чтобы отслеживать ее статус, войдите в приложение."));
+                        setTimeout(() => {
+                            dispatch(setSuccess(false));
+                            dispatch(setSuccessMessage(""));
+                        }, 3000);
                     }
                     setAuthentication(Authentication.Login);
                 } else {

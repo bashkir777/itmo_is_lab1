@@ -47,6 +47,10 @@ const LoginForm = ({setAuthentication, setPage}) => {
                 dispatch(setError(true))
                 const errorMessage = 'Неправильное имя пользователя или пароль. Пожалуйста попробуйте снова.';
                 dispatch(setErrorMessage(errorMessage));
+                setTimeout(() => {
+                    dispatch(setError(false));
+                    dispatch(setErrorMessage(""));
+                }, 3000);
                 throw new Error(errorMessage);
             }
             return response.json();

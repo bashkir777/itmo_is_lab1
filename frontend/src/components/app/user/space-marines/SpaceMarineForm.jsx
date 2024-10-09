@@ -126,12 +126,20 @@ const SpaceMarineForm = ({ onSuccess, initialData = null }) => {
 
                 dispatch(setSuccess(true));
                 dispatch(setSuccessMessage(`SpaceMarine ${initialData ? 'updated' : 'created'} successfully!`));
+                setTimeout(() => {
+                    dispatch(setSuccess(false));
+                    dispatch(setSuccessMessage(""));
+                }, 3000);
 
                 resetForm();
                 onSuccess();
             } catch (error) {
                 dispatch(setError(true));
                 dispatch(setErrorMessage(`Error ${initialData ? 'updating' : 'creating'} SpaceMarine. Please, try again later`));
+                setTimeout(() => {
+                    dispatch(setError(false));
+                    dispatch(setErrorMessage(""));
+                }, 3000);
             }
         }
     };

@@ -11,7 +11,6 @@ const ShortSpaceMarineTable = ({ ordenId, refresh, handleRefresh }) => {
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
 
-    const dispatch = useDispatch();
 
     const fetchSpaceMarines = async (page) => {
         setLoading(true);

@@ -60,6 +60,10 @@ const SpaceMarineTable = () => {
             if (!response.ok) {
                 dispatch(setError(true));
                 dispatch(setErrorMessage("Не удалось удалить объект. Повторите попытку позже"));
+                setTimeout(() => {
+                    dispatch(setError(false));
+                    dispatch(setErrorMessage(""));
+                }, 3000);
             } else {
                 handleRefresh();
             }
