@@ -12,9 +12,6 @@ import com.bashkir777.api.services.enums.Role;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -36,17 +33,29 @@ public class SpaceMarineService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (User) authentication.getPrincipal();
     }
-    private void linkCoordinatesAndChapter(@NonNull SpaceMarine existingSpaceMarine, SpaceMarineDTO dto){
+
+    private void linkCoordinatesAndChapter(@NonNull SpaceMarine existingSpaceMarine, SpaceMarineDTO dto) {
         if (dto.getExistingCoordinateId() != null) {
             Coordinates existingCoordinates = coordinatesRepository.findById(dto.getExistingCoordinateId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid existing coordinate ID"));
             existingSpaceMarine.setCoordinates(existingCoordinates);
+        }else {
+            var coordinates = Coordinates.builder().
+                    x(dto.getX()).y(dto.getY()).build();
+            coordinatesRepository.save(coordinates);
+            existingSpaceMarine.setCoordinates(coordinates);
         }
 
         if (dto.getExistingChapterId() != null) {
             Chapter existingChapter = chapterRepository.findById(dto.getExistingChapterId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid existing chapter ID"));
             existingSpaceMarine.setChapter(existingChapter);
+        }else{
+            var chapter = Chapter.builder().
+                    world(dto.getChapterWorld()).
+                    name(dto.getChapterName()).build();
+            chapterRepository.save(chapter);
+            existingSpaceMarine.setChapter(chapter);
         }
     }
 
@@ -63,26 +72,32 @@ public class SpaceMarineService {
     }
 
     public PaginatedSpaceMarineDTO getAllSpaceMarines(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<SpaceMarine> spaceMarinePage = spaceMarineRepository.findAll(pageable);
-        List<SpaceMarineDTO> spaceMarineDTOs = spaceMarinePage.getContent().stream()
+        List<SpaceMarine> spaceMarines = spaceMarineRepository.findAll(page, size);
+        List<SpaceMarineDTO> spaceMarineDTOs = spaceMarines.stream()
                 .map(SpaceMarine::toDTO)
                 .collect(Collectors.toList());
+
+        long totalElements = spaceMarineRepository.countAll();
+        int totalPages = (int) Math.ceil((double) totalElements / size);
+
         return PaginatedSpaceMarineDTO.builder()
                 .content(spaceMarineDTOs)
-                .totalPages(spaceMarinePage.getTotalPages())
+                .totalPages(totalPages)
                 .build();
     }
 
     public PaginatedSpaceMarineDTO getSpaceMarinesByOrdenId(Long ordenId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<SpaceMarine> spaceMarinePage = spaceMarineRepository.findByOrdenId(ordenId, pageable);
-        List<SpaceMarineDTO> spaceMarineDTOs = spaceMarinePage.getContent().stream()
+        List<SpaceMarine> spaceMarines = spaceMarineRepository.findByOrdenId(ordenId, page, size);
+        List<SpaceMarineDTO> spaceMarineDTOs = spaceMarines.stream()
                 .map(SpaceMarine::toDTO)
                 .collect(Collectors.toList());
+
+        long totalElements = spaceMarineRepository.countByOrdenId(ordenId);
+        int totalPages = (int) Math.ceil((double) totalElements / size);
+
         return PaginatedSpaceMarineDTO.builder()
                 .content(spaceMarineDTOs)
-                .totalPages(spaceMarinePage.getTotalPages())
+                .totalPages(totalPages)
                 .build();
     }
 
@@ -91,8 +106,7 @@ public class SpaceMarineService {
                 .orElseThrow(() -> new RuntimeException("SpaceMarine not found"));
     }
 
-    public OperationInfo deleteSpaceMarine(long id) throws RuntimeException{
-
+    public OperationInfo deleteSpaceMarine(long id) throws RuntimeException {
         SpaceMarine spaceMarine = spaceMarineRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("SpaceMarine not found"));
 
@@ -131,38 +145,23 @@ public class SpaceMarineService {
 
         linkCoordinatesAndChapter(existingSpaceMarine, dto);
 
-        if(dto.getExistingCoordinateId() == null) {
-            assert dto.getX() != null;
-            assert dto.getY() != null;
-            Coordinates coordinates = new Coordinates();
-            coordinates.setX(dto.getX());
-            coordinates.setY(dto.getY());
-            existingSpaceMarine.setCoordinates(coordinates);
-        }
-        
-        if(dto.getExistingChapterId() == null) {
-            assert dto.getChapterWorld() != null;
-            assert dto.getChapterName() != null;
-            Chapter chapter = new Chapter();
-            chapter.setName(dto.getChapterName());
-            chapter.setWorld(dto.getChapterWorld());
-            existingSpaceMarine.setChapter(chapter);
-        }
-
         spaceMarineRepository.save(existingSpaceMarine);
         updatedService.createRecord(getCurrentUser(), existingSpaceMarine);
         return new OperationInfo(true, "Space Marine successfully updated");
     }
 
     public PaginatedSpaceMarineDTO getSpaceMarinesWithoutOrden(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<SpaceMarine> spaceMarinePage = spaceMarineRepository.findByOrdenIsNull(pageable);
-        List<SpaceMarineDTO> spaceMarineDTOs = spaceMarinePage.getContent().stream()
+        List<SpaceMarine> spaceMarines = spaceMarineRepository.findByOrdenIsNull(page, size);
+        List<SpaceMarineDTO> spaceMarineDTOs = spaceMarines.stream()
                 .map(SpaceMarine::toDTO)
                 .collect(Collectors.toList());
+
+        long totalElements = spaceMarineRepository.countByOrdenIsNull();
+        int totalPages = (int) Math.ceil((double) totalElements / size);
+
         return PaginatedSpaceMarineDTO.builder()
                 .content(spaceMarineDTOs)
-                .totalPages(spaceMarinePage.getTotalPages())
+                .totalPages(totalPages)
                 .build();
     }
 
@@ -177,5 +176,4 @@ public class SpaceMarineService {
     public List<SpaceMarine> findByWeaponTypeLessThan(Weapon weapon) {
         return spaceMarineRepository.findByWeaponTypeLessThan(weapon);
     }
-
 }

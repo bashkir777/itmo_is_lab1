@@ -2,6 +2,7 @@ package com.bashkir777.api.data.entities;
 
 import com.bashkir777.api.dto.CoordinatesDTO;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.Min;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

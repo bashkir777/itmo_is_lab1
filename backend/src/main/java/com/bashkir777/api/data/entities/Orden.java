@@ -21,7 +21,7 @@ public class Orden {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
     private User createdBy;
 

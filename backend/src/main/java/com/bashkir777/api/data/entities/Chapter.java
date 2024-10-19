@@ -1,6 +1,7 @@
 package com.bashkir777.api.data.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

@@ -2,7 +2,6 @@ package com.bashkir777.api.services;
 
 import com.bashkir777.api.data.entities.RefreshToken;
 import com.bashkir777.api.data.repositories.RefreshTokenRepository;
-import com.bashkir777.api.data.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
-    private final UserRepository userRepository;
+
 
     public Optional<RefreshToken> getRefreshTokenByUserId(Long userId) throws BadCredentialsException {
         return refreshTokenRepository.findByUser_Id(userId);

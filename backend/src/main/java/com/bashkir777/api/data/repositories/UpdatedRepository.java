@@ -1,7 +1,27 @@
 package com.bashkir777.api.data.repositories;
 
-import com.bashkir777.api.data.entities.Updated;
-import org.springframework.data.jpa.repository.JpaRepository;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
-public interface UpdatedRepository extends JpaRepository<Updated, Long> {
+@Repository
+@RequiredArgsConstructor
+public class UpdatedRepository {
+
+    private final SessionFactory sessionFactory;
+
+    public <T> void save(T entity) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            try {
+                session.saveOrUpdate(entity);
+                transaction.commit();
+            } catch (Exception e) {
+                transaction.rollback();
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+    }
 }

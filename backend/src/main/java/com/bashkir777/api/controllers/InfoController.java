@@ -42,6 +42,7 @@ public class InfoController {
     public ResponseEntity<PaginatedSpaceMarineDTO> getAllSpaceMarines(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
+
         return ResponseEntity.ok(spaceMarineService.getAllSpaceMarines(page, size));
     }
 
@@ -98,6 +99,7 @@ public class InfoController {
 
     @ExceptionHandler({RuntimeException.class})
     private ResponseEntity<OperationInfo> badRequest(RuntimeException exception) {
+        exception.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(OperationInfo.builder().success(false)
                         .message(exception.getMessage()).build());

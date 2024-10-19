@@ -29,7 +29,7 @@ public class SpaceMarine {
     private String name; //Поле не может быть null, Строка не может быть пустой
 
     @NotNull(message = "Coordinates cannot be null")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "coordinates_id", referencedColumnName = "id", nullable = false)
     private Coordinates coordinates; //Поле не может быть null
 
@@ -38,7 +38,7 @@ public class SpaceMarine {
     private ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
 
     @NotNull(message = "Chapter cannot be null")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "chapter_id", referencedColumnName = "id", nullable = false)
     private Chapter chapter; //Поле не может быть null
 
@@ -61,7 +61,7 @@ public class SpaceMarine {
     @Column(nullable = false)
     private MeleeWeapon meleeWeapon; //Поле не может быть null
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
     private User createdBy; // Ссылка на пользователя, создавшего SpaceMarine
 
@@ -70,7 +70,7 @@ public class SpaceMarine {
         this.creationDate = ZonedDateTime.now();
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "orden_id", referencedColumnName = "id", nullable = true)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Orden orden;
