@@ -59,7 +59,15 @@ public class SpaceMarineService {
         }
     }
 
+    public void assertSpaceMarineNameIsUnique(String name) throws IllegalArgumentException{
+        getSpaceMarineByName(name).ifPresent(spaceMarine -> {
+            throw new IllegalArgumentException("SpaceMarine name should be unique");
+        });
+    }
+
     public OperationInfo createSpaceMarine(SpaceMarineDTO dto) {
+        assertSpaceMarineNameIsUnique(dto.getName());
+
         SpaceMarine spaceMarine = dto.toEntity();
 
         linkCoordinatesAndChapter(spaceMarine, dto);
@@ -105,6 +113,10 @@ public class SpaceMarineService {
         return spaceMarineRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("SpaceMarine not found"));
     }
+    public Optional<SpaceMarine> getSpaceMarineByName(String name) throws RuntimeException {
+        return spaceMarineRepository.findByName(name);
+    }
+
 
     public OperationInfo deleteSpaceMarine(long id) throws RuntimeException {
         SpaceMarine spaceMarine = spaceMarineRepository.findById(id)

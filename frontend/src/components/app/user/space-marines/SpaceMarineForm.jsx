@@ -119,6 +119,13 @@ const SpaceMarineForm = ({ onSuccess, initialData = null }) => {
                 });
 
                 if (!response.ok) {
+                    const result = await response.json();
+                    dispatch(setError(true));
+                    dispatch(setErrorMessage(`Error ${initialData ? 'updating' : 'creating'} SpaceMarine. ${result.message}`));
+                    setTimeout(() => {
+                        dispatch(setError(false));
+                        dispatch(setErrorMessage(""));
+                    }, 3000);
                     throw new Error('Network response was not ok');
                 }
 
@@ -134,12 +141,7 @@ const SpaceMarineForm = ({ onSuccess, initialData = null }) => {
                 resetForm();
                 onSuccess();
             } catch (error) {
-                dispatch(setError(true));
-                dispatch(setErrorMessage(`Error ${initialData ? 'updating' : 'creating'} SpaceMarine. Please, try again later`));
-                setTimeout(() => {
-                    dispatch(setError(false));
-                    dispatch(setErrorMessage(""));
-                }, 3000);
+                console.log(error);
             }
         }
     };

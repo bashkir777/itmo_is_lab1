@@ -122,4 +122,13 @@ public class SpaceMarineRepository {
             }
         }
     }
+
+    public Optional<SpaceMarine> findByName(String name) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<SpaceMarine> query = session.createQuery("FROM SpaceMarine WHERE name = :name", SpaceMarine.class);
+            query.setParameter("name", name);
+            return query.getResultList().stream().findAny();
+        }
+    }
+
 }
