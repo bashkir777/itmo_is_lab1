@@ -12,6 +12,7 @@ import UserAccountInfoPage from "./UserAccountInfoPage";
 import OrdensTable from "../user/ordens/OrdensTable";
 import AdditionalWrapper from "../user/additional/AdditionalWrapper";
 import InfiniteCoordinates from "../user/visualization/InfiniteCoordinates";
+import Import from "../user/import/Import";
 
 
 const UserPage = () => {
@@ -52,6 +53,10 @@ const UserPage = () => {
 
             {
                 page === Pages.Visualization && <InfiniteCoordinates/>
+            }
+
+            {
+                page === Pages.Import && <Import/>
             }
 
         </>

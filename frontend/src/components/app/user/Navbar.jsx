@@ -102,6 +102,19 @@ const Navbar = ({ setPage, currentPage }) => {
                         <i className="fa-solid fa-circle-user me-1"></i> {isAuthenticated ? 'Account' : 'Sign in/up'}
                     </a>
                 </div>
+                <div
+                    className={`px-lg-3 flex-fill text-center d-flex align-items-center ${!isAuthenticated && "d-none"}`}>
+                    <a
+                        className={`${styles.element} text-black-50 ${!isPhone && "px-4 py-2 fs-6"} ${isPhone && "px-2 py-1"} text-uppercase ${currentPage === Pages.Import ? styles.active : ''}`}
+                        href=""
+                        onClick={(event) => {
+                            event.preventDefault();
+                            setPage(Pages.Import);
+                        }}
+                    >
+                        <i className="fa-solid fa-circle-user me-1"></i> Import
+                    </a>
+                </div>
             </div>
 
             {!isPhone && <div className="flex-grow-1 mx-3"></div>}

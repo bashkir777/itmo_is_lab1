@@ -18,7 +18,8 @@ export const Pages = {
     Applications: 'Applications',
     Ordens: "Ordens",
     Additional: 'Additional',
-    Visualization: 'Visualization'
+    Visualization: 'Visualization',
+    Import : 'import',
 }
 
 

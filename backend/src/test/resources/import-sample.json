@@ -1,0 +1,24 @@
+[
+  {
+    "name": "SpaceMarine1",
+    "x": 10,
+    "y": 20,
+    "chapterName": "Chapter1",
+    "chapterWorld": "World1",
+    "health": 100,
+    "category": "SCOUT",
+    "weaponType": "FLAMER",
+    "meleeWeapon": "CHAIN_AXE"
+  },
+  {
+    "name": "SpaceMarine2",
+    "x": 15,
+    "y": -953,
+    "chapterName": "Chapter2",
+    "chapterWorld": "World2",
+    "health": 120,
+    "category": "DREADNOUGHT",
+    "weaponType": "HEAVY_FLAMER",
+    "meleeWeapon": "POWER_BLADE"
+  }
+]

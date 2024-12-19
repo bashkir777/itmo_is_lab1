@@ -34,7 +34,7 @@ public class SpaceMarineService {
         return (User) authentication.getPrincipal();
     }
 
-    private void linkCoordinatesAndChapter(@NonNull SpaceMarine existingSpaceMarine, SpaceMarineDTO dto) {
+    private void linkCoordinatesAndChapter(@NonNull SpaceMarine existingSpaceMarine, SpaceMarineDTO dto) throws IllegalArgumentException{
         if (dto.getExistingCoordinateId() != null) {
             Coordinates existingCoordinates = coordinatesRepository.findById(dto.getExistingCoordinateId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid existing coordinate ID"));

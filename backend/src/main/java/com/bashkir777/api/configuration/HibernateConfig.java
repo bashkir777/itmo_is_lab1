@@ -27,9 +27,16 @@ public class HibernateConfig {
             configuration.addAnnotatedClass(Chapter.class);
 
             configuration.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
-            configuration.setProperty("hibernate.connection.url", System.getenv("database_url"));
-            configuration.setProperty("hibernate.connection.username", System.getenv("database_username"));
-            configuration.setProperty("hibernate.connection.password", System.getenv("database_password"));
+            configuration.setProperty("hibernate.connection.url",
+                    System.getenv("database_url") == null
+                    ? "jdbc:postgresql://localhost:5432/fitness"
+                    : System.getenv("database_url"));
+            configuration.setProperty("hibernate.connection.username",
+                    System.getenv("database_username") == null
+                            ? "root": System.getenv("database_username") );
+            configuration.setProperty("hibernate.connection.password",
+                    System.getenv("database_password") == null
+                            ? "root" : System.getenv("database_password"));
             configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
             configuration.setProperty("hibernate.show_sql", "true");
             configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
