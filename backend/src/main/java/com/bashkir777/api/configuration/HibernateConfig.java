@@ -25,6 +25,7 @@ public class HibernateConfig {
             configuration.addAnnotatedClass(Coordinates.class);
             configuration.addAnnotatedClass(AdminApplication.class);
             configuration.addAnnotatedClass(Chapter.class);
+            configuration.addAnnotatedClass(ImportOperation.class);
 
             configuration.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
             configuration.setProperty("hibernate.connection.url",

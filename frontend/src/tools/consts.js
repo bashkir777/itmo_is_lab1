@@ -20,6 +20,7 @@ export const Pages = {
     Additional: 'Additional',
     Visualization: 'Visualization',
     Import : 'import',
+    ImportHistory: 'ImportHistory'
 }
 
 

@@ -38,6 +38,9 @@ public class User implements UserDetails {
 
     private String lastname;
 
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ImportOperation> importOperations;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

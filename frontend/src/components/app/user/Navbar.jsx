@@ -14,7 +14,7 @@ const Navbar = ({ setPage, currentPage }) => {
             {!isPhone && <div className="flex-grow-1 mx-3"></div>}
 
             <div className={`${isPhone ? "d-flex" : "d-inline-flex"}`}>
-                <div className="px-lg-3 flex-fill text-center d-flex align-items-center">
+                <div className="px-lg-2 flex-fill text-center d-flex align-items-center">
                     <a
                         className={`${styles.element} text-black-50  ${!isPhone && "px-4 py-2 fs-6"} ${isPhone && "px-2 py-1"} text-uppercase  ${currentPage === Pages.List ? styles.active : ''}`}
                         href=""
@@ -26,7 +26,7 @@ const Navbar = ({ setPage, currentPage }) => {
                         Marines
                     </a>
                 </div>
-                <div className="px-lg-3 flex-fill text-center d-flex align-items-center">
+                <div className="px-lg-2 flex-fill text-center d-flex align-items-center">
                     <a
                         className={`${styles.element} text-black-50  ${!isPhone && "px-4 py-2 fs-6"} ${isPhone && "px-2 py-1"} text-uppercase  ${currentPage === Pages.Ordens ? styles.active : ''}`}
                         href=""
@@ -40,7 +40,7 @@ const Navbar = ({ setPage, currentPage }) => {
                 </div>
 
                 <div
-                    className={`${(role !== 'ADMIN' && role !== 'USER') && 'd-none'} px-lg-3 flex-fill text-center d-flex align-items-center`}>
+                    className={`${(role !== 'ADMIN' && role !== 'USER') && 'd-none'} px-lg-2 flex-fill text-center d-flex align-items-center`}>
                     <a
                         className={`${styles.element} text-black-50 ${!isPhone && "px-4 py-2 fs-6"} ${isPhone && "px-2 py-1"} text-uppercase ${currentPage === Pages.CreateSpaceMarine ? styles.active : ''}`}
                         href=""
@@ -53,7 +53,7 @@ const Navbar = ({ setPage, currentPage }) => {
                     </a>
                 </div>
                 <div
-                    className={`${role !== 'ADMIN' && 'd-none'} px-lg-3 flex-fill text-center d-flex align-items-center`}>
+                    className={`${role !== 'ADMIN' && 'd-none'} px-lg-2 flex-fill text-center d-flex align-items-center`}>
                     <a
                         className={`${styles.element} text-black-50 ${!isPhone && "px-4 py-2 fs-6"} ${isPhone && "px-2 py-1"} text-uppercase ${currentPage === Pages.Applications ? styles.active : ''}`}
                         href=""
@@ -65,7 +65,7 @@ const Navbar = ({ setPage, currentPage }) => {
                     </a>
                 </div>
                 <div
-                    className={`px-lg-3 flex-fill text-center d-flex align-items-center`}>
+                    className={`px-lg-2 flex-fill text-center d-flex align-items-center`}>
                     <a
                         className={`${styles.element} text-black-50 ${!isPhone && "px-4 py-2 fs-6"} ${isPhone && "px-2 py-1"} text-uppercase ${currentPage === Pages.Additional ? styles.active : ''}`}
                         href=""
@@ -78,7 +78,7 @@ const Navbar = ({ setPage, currentPage }) => {
                     </a>
                 </div>
                 <div
-                    className={`px-lg-3 flex-fill text-center d-flex align-items-center`}>
+                    className={`px-lg-2 flex-fill text-center d-flex align-items-center`}>
                     <a
                         className={`${styles.element} text-black-50 ${!isPhone && "px-4 py-2 fs-6"} ${isPhone && "px-2 py-1"} text-uppercase ${currentPage === Pages.Visualization ? styles.active : ''}`}
                         href=""
@@ -90,7 +90,7 @@ const Navbar = ({ setPage, currentPage }) => {
                         <i className="fa-solid fa-circle-user me-1"></i> Visualization
                     </a>
                 </div>
-                <div className=" px-lg-3 flex-fill text-center d-flex align-items-center">
+                <div className=" px-lg-2 flex-fill text-center d-flex align-items-center">
                     <a
                         className={`${styles.element} text-black-50 ${!isPhone && "px-4 py-2 fs-6"} ${isPhone && "px-2 py-1"} text-uppercase ${(currentPage === (isAuthenticated ? Pages.Account : Pages.Login)) ? styles.active : ''}`}
                         href=""
@@ -103,7 +103,7 @@ const Navbar = ({ setPage, currentPage }) => {
                     </a>
                 </div>
                 <div
-                    className={`px-lg-3 flex-fill text-center d-flex align-items-center ${!isAuthenticated && "d-none"}`}>
+                    className={`px-lg-2 flex-fill text-center d-flex align-items-center ${!isAuthenticated && "d-none"}`}>
                     <a
                         className={`${styles.element} text-black-50 ${!isPhone && "px-4 py-2 fs-6"} ${isPhone && "px-2 py-1"} text-uppercase ${currentPage === Pages.Import ? styles.active : ''}`}
                         href=""
@@ -115,6 +115,20 @@ const Navbar = ({ setPage, currentPage }) => {
                         <i className="fa-solid fa-circle-user me-1"></i> Import
                     </a>
                 </div>
+                <div
+                    className={`px-lg-2 flex-fill text-center d-flex align-items-center ${!isAuthenticated && "d-none"}`}>
+                    <a
+                        className={`${styles.element} text-black-50 ${!isPhone && "px-4 py-2 fs-6"} ${isPhone && "px-2 py-1"} text-uppercase ${currentPage === Pages.ImportHistory ? styles.active : ''}`}
+                        href=""
+                        onClick={(event) => {
+                            event.preventDefault();
+                            setPage(Pages.ImportHistory);
+                        }}
+                    >
+                        <i className="fa-solid fa-circle-user me-1"></i> Import history
+                    </a>
+                </div>
+
             </div>
 
             {!isPhone && <div className="flex-grow-1 mx-3"></div>}

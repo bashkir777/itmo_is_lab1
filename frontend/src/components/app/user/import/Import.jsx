@@ -1,21 +1,23 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import {useDispatch} from "react-redux";
+import {setSuccess, setSuccessMessage} from "../../../../redux/actions";
 
 const Import = () => {
     const [errors, setErrors] = useState([]);
-    const [jsonData, setJsonData] = useState(null); // Сохраняем данные после валидации
-    const [isFileValid, setIsFileValid] = useState(false); // Флаг для проверки валидности файла
-    const [currentFile, setCurrentFile] = useState(null); // Текущий файл
+    const [jsonData, setJsonData] = useState(null);
+    const [isFileValid, setIsFileValid] = useState(false);
+    const [currentFile, setCurrentFile] = useState(null);
+    const dispatch = useDispatch();
 
-    // Обработчик загрузки файла
     const onDrop = useCallback((acceptedFiles) => {
         if (currentFile) {
             setErrors(["You already have a file loaded. Please remove the current file to upload a new one."]);
             return;
         }
 
-        const file = acceptedFiles[0]; // Берем только первый файл
-        setCurrentFile(file); // Сохраняем текущий файл
+        const file = acceptedFiles[0];
+        setCurrentFile(file);
 
         const reader = new FileReader();
 
@@ -27,14 +29,13 @@ const Import = () => {
             try {
                 const parsedData = JSON.parse(fileContent);
 
-                // Валидация данных
                 const validationErrors = validateData(parsedData);
                 if (validationErrors.length > 0) {
                     setErrors(validationErrors);
                     setIsFileValid(false);
                     console.error("Validation errors:", validationErrors);
                 } else {
-                    setJsonData(parsedData); // Сохраняем данные после валидации
+                    setJsonData(parsedData);
                     setIsFileValid(true);
                     setErrors([]);
                     console.log("Parsed and validated JSON:", parsedData);
@@ -49,7 +50,6 @@ const Import = () => {
         reader.readAsText(file);
     }, [currentFile]);
 
-    // Валидация данных
     const validateData = (data) => {
         const errors = [];
 
@@ -75,7 +75,6 @@ const Import = () => {
         return errors;
     };
 
-    // Функция отправки данных на сервер
     const handleSubmit = async () => {
         if (!isFileValid || !jsonData) {
             setErrors(["File is not valid or not loaded"]);
@@ -90,7 +89,7 @@ const Import = () => {
                     "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
                 },
                 body: JSON.stringify({
-                    listMarines: jsonData // Отправляем данные в формате { "listMarines": [...] }
+                    listMarines: jsonData
                 })
             });
 
@@ -99,8 +98,9 @@ const Import = () => {
                 setErrors([]);
                 setJsonData(null);
                 setIsFileValid(false);
-                setCurrentFile(null); // Сбрасываем текущий файл
-                alert("Data imported successfully!");
+                setCurrentFile(null);
+                dispatch(setSuccess(true));
+                dispatch(setSuccessMessage("Data imported successfully!"))
             } else {
                 const errorMessage = await response.text();
                 setErrors([`Server error: ${errorMessage}`]);
@@ -112,7 +112,6 @@ const Import = () => {
         }
     };
 
-    // Функция удаления текущего файла
     const handleRemoveFile = () => {
         setCurrentFile(null);
         setJsonData(null);
