@@ -33,6 +33,11 @@ public class SpaceMarineController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).
                 body(spaceMarineService.deleteSpaceMarine(id));
     }
+    @DeleteMapping("/by-name/{name}")
+    public ResponseEntity<OperationInfo> deleteSpaceMarineByName(@PathVariable String name) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).
+                body(spaceMarineService.deleteSpaceMarineByName(name));
+    }
 
     @ExceptionHandler({RuntimeException.class})
     private ResponseEntity<OperationInfo> badCredentials(RuntimeException exception) {

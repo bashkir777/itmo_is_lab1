@@ -13,19 +13,30 @@ public class AdminInitializer implements CommandLineRunner {
 
     private final UserService userService;
 
+
     @Override
     public void run(String... args) throws Exception {
-        var optionalUser = userService.getUserByUsername("admin");
-        if (optionalUser.isEmpty()) {
-            userService.register(RegisterRequest.builder()
-                    .username("administrator").password("administrator").
-                    firstname("administrator").lastname("administrator").build());
 
-            var user = userService.getUserByUsername("administrator").
-                    orElseThrow(()->new RuntimeException("administrator not found"));
+        for (int i = 1; i <= 3; i++) {
+            String adminName = "administrator" + i;
+            userService.register(RegisterRequest.builder()
+                    .username(adminName).password(adminName).
+                    firstname(adminName).lastname(adminName).build());
+            var user = userService.getUserByUsername(adminName).
+                    orElseThrow(() -> new RuntimeException("administrator not found"));
             user.setRole(Role.ADMIN);
             userService.saveUser(user);
         }
+        for (int i = 1; i <= 3; i++) {
+            String userName = "user__" + i;
+            userService.register(RegisterRequest.builder()
+                    .username(userName).password(userName).
+                    firstname(userName).lastname(userName).build());
+            userService.getUserByUsername(userName).
+                    orElseThrow(() -> new RuntimeException("user not found"));
+        }
+
+
     }
-    
+
 }

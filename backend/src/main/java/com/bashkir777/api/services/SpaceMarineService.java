@@ -145,8 +145,8 @@ public class SpaceMarineService {
     }
 
     public OperationInfo patchSpaceMarine(@Valid SpaceMarineDTO dto) {
-        assert dto.getId() != null;
-        SpaceMarine existingSpaceMarine = spaceMarineRepository.findById(dto.getId())
+
+        SpaceMarine existingSpaceMarine = spaceMarineRepository.findByName(dto.getName())
                 .orElseThrow(() -> new RuntimeException("SpaceMarine not found"));
 
         existingSpaceMarine.setName(dto.getName());
@@ -188,4 +188,19 @@ public class SpaceMarineService {
     public List<SpaceMarine> findByWeaponTypeLessThan(Weapon weapon) {
         return spaceMarineRepository.findByWeaponTypeLessThan(weapon);
     }
+
+    public OperationInfo deleteSpaceMarineByName(String name) {
+        SpaceMarine spaceMarine = spaceMarineRepository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("SpaceMarine not found"));
+
+        User currentUser = getCurrentUser();
+
+        if (currentUser.getRole() == Role.ADMIN || currentUser.getId().equals(spaceMarine.getCreatedBy().getId())) {
+            spaceMarineRepository.delete(spaceMarine);
+            return new OperationInfo(true, "Space Marine successfully deleted");
+        } else {
+            throw new RuntimeException("You do not have permission to delete this SpaceMarine");
+        }
+    }
+
 }
