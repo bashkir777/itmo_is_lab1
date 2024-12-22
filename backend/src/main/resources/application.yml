@@ -1,7 +1,27 @@
 spring:
+
   application:
-    name: is-lab1-backend
+    name: is-lab3-backend
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${database_url:jdbc:postgresql://localhost:5432/lab3}
+    username: ${database_username:root}
+    password: ${database_password:root}
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+
 jwt:
   secret: ${jwt_secret:7dec524d50d2b1ec883f422e015659b1e57e42305e84c3cabb6d70911de2bc24}
+
+minIO:
+  access-key: ${minio_access_key:root}
+  secret-key: ${minio_secret_key:root}
+  endpoint: ${minio_endpoint:http://localhost:9000}
 server:
   port: ${server_port:8082}
