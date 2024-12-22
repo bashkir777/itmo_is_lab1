@@ -1,15 +1,15 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import {useDispatch} from "react-redux";
-import {setSuccess, setSuccessMessage} from "../../../../redux/actions";
+import {useDispatch, useSelector} from "react-redux";
+import { setSuccess, setSuccessMessage } from "../../../../redux/actions";
+import {selectAccessToken} from "../../../../redux/selectors";
 
 const Import = () => {
     const [errors, setErrors] = useState([]);
-    const [jsonData, setJsonData] = useState(null);
     const [isFileValid, setIsFileValid] = useState(false);
     const [currentFile, setCurrentFile] = useState(null);
     const dispatch = useDispatch();
-
+    const accessToken = useSelector(selectAccessToken);
     const onDrop = useCallback((acceptedFiles) => {
         if (currentFile) {
             setErrors(["You already have a file loaded. Please remove the current file to upload a new one."]);
@@ -35,7 +35,6 @@ const Import = () => {
                     setIsFileValid(false);
                     console.error("Validation errors:", validationErrors);
                 } else {
-                    setJsonData(parsedData);
                     setIsFileValid(true);
                     setErrors([]);
                     console.log("Parsed and validated JSON:", parsedData);
@@ -53,12 +52,12 @@ const Import = () => {
     const validateData = (data) => {
         const errors = [];
 
-        if (!Array.isArray(data)) {
+        if (!Array.isArray(data.listMarines)) {
             errors.push("JSON file must contain a list of objects");
             return errors;
         }
 
-        data.forEach((item, index) => {
+        data.listMarines.forEach((item, index) => {
             if (!item.name) errors.push(`Item ${index + 1}: Name is required`);
             if (!item.x) errors.push(`Item ${index + 1}: X coordinate is required`);
             if (!item.y) errors.push(`Item ${index + 1}: Y coordinate is required`);
@@ -76,31 +75,30 @@ const Import = () => {
     };
 
     const handleSubmit = async () => {
-        if (!isFileValid || !jsonData) {
+        if (!isFileValid || !currentFile) {
             setErrors(["File is not valid or not loaded"]);
             return;
         }
+
+        const formData = new FormData();
+        formData.append("file", currentFile);
 
         try {
             const response = await fetch("/api/v1/import", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+                    "Authorization": `Bearer ${accessToken}`
                 },
-                body: JSON.stringify({
-                    listMarines: jsonData
-                })
+                body: formData
             });
 
             if (response.ok) {
-                console.log("Data successfully sent to the server");
+                console.log("File successfully sent to the server");
                 setErrors([]);
-                setJsonData(null);
                 setIsFileValid(false);
                 setCurrentFile(null);
                 dispatch(setSuccess(true));
-                dispatch(setSuccessMessage("Data imported successfully!"))
+                dispatch(setSuccessMessage("File imported successfully!"))
             } else {
                 const errorMessage = await response.text();
                 setErrors([`Server error: ${errorMessage}`]);
@@ -114,7 +112,6 @@ const Import = () => {
 
     const handleRemoveFile = () => {
         setCurrentFile(null);
-        setJsonData(null);
         setIsFileValid(false);
         setErrors([]);
     };
@@ -180,7 +177,7 @@ const Import = () => {
                     className="mt-4 btn btn-primary btn-lg"
                     onClick={handleSubmit}
                 >
-                    Send Data to Server
+                    Send File to Server
                 </button>
             )}
         </div>

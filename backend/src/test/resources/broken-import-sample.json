@@ -5,7 +5,7 @@
     "y": 20,
     "chapterName": "Chapter1",
     "chapterWorld": "World1",
-    "health": -1,
+    "health": 100,
     "category": "SCOUT",
     "weaponType": "FLAMER",
     "meleeWeapon": "CHAIN_AXE"
@@ -17,8 +17,96 @@
     "chapterName": "Chapter2",
     "chapterWorld": "World2",
     "health": 120,
-    "category": "DREADNOUGH",
+    "category": "DREADNOUGHT",
     "weaponType": "HEAVY_FLAMER",
     "meleeWeapon": "POWER_BLADE"
+  },
+  {
+    "name": "SpaceMarine3",
+    "x": 20,
+    "y": -950,
+    "chapterName": "Chapter3",
+    "chapterWorld": "World3",
+    "health": 110,
+    "category": "AGGRESSOR",
+    "weaponType": "MULTI_MELTA",
+    "meleeWeapon": "POWER_FIST"
+  },
+  {
+    "name": "SpaceMarine4",
+    "x": 25,
+    "y": -945,
+    "chapterName": "Chapter4",
+    "chapterWorld": "World4",
+    "health": 95,
+    "category": "INCEPTOR",
+    "weaponType": "FLAMER",
+    "meleeWeapon": "CHAIN_AXE"
+  },
+  {
+    "name": "SpaceMarine5",
+    "x": 30,
+    "y": -940,
+    "chapterName": "Chapter5",
+    "chapterWorld": "World5",
+    "health": 130,
+    "category": "SUPPRESSOR",
+    "weaponType": "HEAVY_FLAMER",
+    "meleeWeapon": "POWER_BLADE"
+  },
+  {
+    "name": "SpaceMarine6",
+    "x": 35,
+    "y": -935,
+    "chapterName": "Chapter6",
+    "chapterWorld": "World6",
+    "health": 105,
+    "category": "SCOUT",
+    "weaponType": "MULTI_MELTA",
+    "meleeWeapon": "POWER_FIST"
+  },
+  {
+    "name": "SpaceMarine7",
+    "x": 40,
+    "y": -930,
+    "chapterName": "Chapter7",
+    "chapterWorld": "World7",
+    "health": 115,
+    "category": "DREADNOUGHT",
+    "weaponType": "FLAMER",
+    "meleeWeapon": "CHAIN_AXE"
+  },
+  {
+    "name": "SpaceMarine8",
+    "x": 45,
+    "y": -925,
+    "chapterName": "Chapter8",
+    "chapterWorld": "World8",
+    "health": 125,
+    "category": "AGGRESSOR",
+    "weaponType": "HEAVY_FLAMER",
+    "meleeWeapon": "POWER_BLADE"
+  },
+  {
+    "name": "SpaceMarine9",
+    "x": 50,
+    "y": -920,
+    "chapterName": "Chapter9",
+    "chapterWorld": "World9",
+    "health": -1,
+    "category": "INCEPTOR",
+    "weaponType": "MULTI_MELTA",
+    "meleeWeapon": "POWER_FIST"
+  },
+  {
+    "name": "SpaceMarine9",
+    "x": 55,
+    "y": -915,
+    "chapterName": "Chapter10",
+    "chapterWorld": "World10",
+    "health": 135,
+    "category": "SUPPRESSOR",
+    "weaponType": "FLAMER",
+    "meleeWeapon": "CHAIN_AXE"
   }
 ]

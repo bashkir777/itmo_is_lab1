@@ -7,6 +7,7 @@ import com.bashkir777.api.services.ImportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,13 +19,14 @@ public class ImportController {
     private final ImportService importService;
 
     @PostMapping
-    public ResponseEntity<OperationInfo> importMarines(@RequestBody ListMarinesDto listDto){
-        return importService.importMarines(listDto);
+    public ResponseEntity<OperationInfo> importMarines(@RequestParam("file") MultipartFile file) {
+
+        return importService.importMarines(file);
     }
 
     @GetMapping
-    public ResponseEntity<List<ImportDTO>> getAllImportOperations(){
+    public ResponseEntity<List<ImportDTO>> getAllImportOperations() {
+        // Возвращаем список операций импорта
         return ResponseEntity.ok(importService.getAllImports());
     }
-
 }
