@@ -26,7 +26,6 @@ public class ImportController {
 
     @GetMapping
     public ResponseEntity<List<ImportDTO>> getAllImportOperations() {
-        // Возвращаем список операций импорта
         return ResponseEntity.ok(importService.getAllImports());
     }
 }

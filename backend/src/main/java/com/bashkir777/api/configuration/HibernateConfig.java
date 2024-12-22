@@ -30,7 +30,7 @@ public class HibernateConfig {
             configuration.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
             configuration.setProperty("hibernate.connection.url",
                     System.getenv("database_url") == null
-                    ? "jdbc:postgresql://localhost:5432/fitness"
+                    ? "jdbc:postgresql://localhost:5432/lab3"
                     : System.getenv("database_url"));
             configuration.setProperty("hibernate.connection.username",
                     System.getenv("database_username") == null

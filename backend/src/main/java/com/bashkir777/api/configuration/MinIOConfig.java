@@ -29,6 +29,7 @@ public class MinIOConfig {
         return AmazonS3ClientBuilder.standard()
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endpoint, "us-east-1"))
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .enablePathStyleAccess()
                 .build();
     }
 }
