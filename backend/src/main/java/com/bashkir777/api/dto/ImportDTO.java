@@ -16,4 +16,6 @@ public class ImportDTO {
     private String creatorName;
     @Nullable
     private Integer counter;
+    @Nullable
+    private String link;
 }

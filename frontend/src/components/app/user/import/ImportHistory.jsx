@@ -61,6 +61,7 @@ const ImportHistory = () => {
                             <th>Статус</th>
                             <th>Имя создателя</th>
                             <th>Счетчик</th>
+                            <th>Ссылка на скачивание</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -70,15 +71,17 @@ const ImportHistory = () => {
                                     <td>{importItem.id}</td>
                                     <td>{importItem.status}</td>
                                     <td>{importItem.creatorName}</td>
-                                    <td>{importItem.counter !== null ? importItem.counter : '-'}</td>
+                                    <td>{importItem.counter !== null ? importItem.counter : '—'}</td>
+                                    <td>{importItem.link !== null ? <a href={importItem.link} download>Скачать</a> : '—'}</td>
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td className="text-center"> — </td>
-                                <td className="text-center"> — </td>
-                                <td className="text-center"> — </td>
-                                <td className="text-center"> — </td>
+                                <td className="text-center"> —</td>
+                                <td className="text-center"> —</td>
+                                <td className="text-center"> —</td>
+                                <td className="text-center"> —</td>
+                                <td className="text-center"> —</td>
                             </tr>
                         )}
                         </tbody>

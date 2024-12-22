@@ -74,6 +74,7 @@ public class ImportService {
                     ImportOperation.builder()
                             .creator(creator)
                             .status(ImportStatus.SUCCESS)
+                            .filename(filename)
                             .counter(listMarinesDto.getListMarines().size())
                             .build()
             );
@@ -105,7 +106,14 @@ public class ImportService {
         if (user.getRole().equals(Role.ADMIN)) {
             return importRepository.findAll().stream().map(ImportOperation::toDTO).toList();
         } else {
-            return user.getImportOperations().stream().map(ImportOperation::toDTO).toList();
+            return user.getImportOperations().stream().map(operation -> {
+                var dto = operation.toDTO();
+                if(operation.getStatus().equals(ImportStatus.SUCCESS)){
+                    dto.setLink(minIOService.generateDownloadLink(operation.getFilename()));
+                }
+                return dto;
+            }
+            ).toList();
         }
     }
 }

@@ -23,6 +23,7 @@ minIO:
   access-key: ${minio_access_key:root_user}
   secret-key: ${minio_secret_key:root_password}
   endpoint: ${minio_endpoint:http://localhost:9000}
+  link-live-time-millis: 600000
   bucket: is-lab3-bucket
 server:
   port: ${server_port:8082}

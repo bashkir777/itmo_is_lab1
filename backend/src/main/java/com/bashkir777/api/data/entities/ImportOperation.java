@@ -28,6 +28,8 @@ public class ImportOperation {
     @JoinColumn(name = "creator_id", referencedColumnName = "id")
     private User creator;
 
+    private String filename;
+
     public ImportDTO toDTO(){
         return ImportDTO.builder()
                 .id(id)
