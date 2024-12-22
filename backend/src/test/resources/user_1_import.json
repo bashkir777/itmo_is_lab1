@@ -1,0 +1,48 @@
+{
+  "listMarines": [
+    {
+      "name": "user_1_SpaceMarine1",
+      "x": 10,
+      "y": 20,
+      "chapterName": "user_1_Chapter1",
+      "chapterWorld": "user_1_World1",
+      "health": 100,
+      "category": "SCOUT",
+      "weaponType": "FLAMER",
+      "meleeWeapon": "CHAIN_AXE"
+    },
+    {
+      "name": "user_1_SpaceMarine2",
+      "x": 15,
+      "y": -953,
+      "chapterName": "user_1_Chapter2",
+      "chapterWorld": "user_1_World2",
+      "health": 120,
+      "category": "DREADNOUGHT",
+      "weaponType": "HEAVY_FLAMER",
+      "meleeWeapon": "POWER_BLADE"
+    },
+    {
+      "name": "user_1_SpaceMarine3",
+      "x": 10,
+      "y": 20,
+      "chapterName": "user_1_Chapter3",
+      "chapterWorld": "user_1_World3",
+      "health": 100,
+      "category": "SCOUT",
+      "weaponType": "FLAMER",
+      "meleeWeapon": "CHAIN_AXE"
+    },
+    {
+      "name": "user_1_SpaceMarine4",
+      "x": 15,
+      "y": -953,
+      "chapterName": "user_1_Chapter4",
+      "chapterWorld": "user_1_World4",
+      "health": 120,
+      "category": "DREADNOUGHT",
+      "weaponType": "HEAVY_FLAMER",
+      "meleeWeapon": "POWER_BLADE"
+    }
+  ]
+}

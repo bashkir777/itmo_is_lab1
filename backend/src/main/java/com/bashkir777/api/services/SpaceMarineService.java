@@ -5,13 +5,18 @@ import com.bashkir777.api.data.enums.Weapon;
 import com.bashkir777.api.data.repositories.ChapterRepository;
 import com.bashkir777.api.data.repositories.CoordinatesRepository;
 import com.bashkir777.api.data.repositories.SpaceMarineRepository;
+import com.bashkir777.api.dto.ListMarinesDto;
 import com.bashkir777.api.dto.OperationInfo;
 import com.bashkir777.api.dto.PaginatedSpaceMarineDTO;
 import com.bashkir777.api.dto.SpaceMarineDTO;
+import com.bashkir777.api.services.enums.ImportStatus;
 import com.bashkir777.api.services.enums.Role;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -28,6 +33,12 @@ public class SpaceMarineService {
     private final ChapterRepository chapterRepository;
     private final CoordinatesRepository coordinatesRepository;
     private final UpdatedService updatedService;
+    private ImportService importService;
+
+    @Autowired
+    public void setImportService(@Lazy ImportService importService) {
+        this.importService = importService;
+    }
 
     private User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -203,4 +214,22 @@ public class SpaceMarineService {
         }
     }
 
+    @Transactional
+    public void saveMarines(ListMarinesDto listMarinesDto, User creator, String filename) throws IllegalArgumentException{
+        if (listMarinesDto.getListMarines().isEmpty()) {
+            throw new IllegalArgumentException("File contains no space marines");
+        }
+
+        for (SpaceMarineDTO dto : listMarinesDto.getListMarines()) {
+            this.createSpaceMarine(dto);
+        }
+        importService.createImportOperation(
+                ImportOperation.builder()
+                        .creator(creator)
+                        .status(ImportStatus.SUCCESS)
+                        .filename(filename)
+                        .counter(listMarinesDto.getListMarines().size())
+                        .build()
+        );
+    }
 }

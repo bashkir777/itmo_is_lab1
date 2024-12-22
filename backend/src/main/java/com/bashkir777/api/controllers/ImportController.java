@@ -20,7 +20,6 @@ public class ImportController {
 
     @PostMapping
     public ResponseEntity<OperationInfo> importMarines(@RequestParam("file") MultipartFile file) {
-
         return importService.importMarines(file);
     }
 

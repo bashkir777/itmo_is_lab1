@@ -6,11 +6,9 @@ import com.bashkir777.api.data.repositories.ImportRepository;
 import com.bashkir777.api.dto.ImportDTO;
 import com.bashkir777.api.dto.ListMarinesDto;
 import com.bashkir777.api.dto.OperationInfo;
-import com.bashkir777.api.dto.SpaceMarineDTO;
 import com.bashkir777.api.services.enums.ImportStatus;
 import com.bashkir777.api.services.enums.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +28,6 @@ public class ImportService {
     private final ObjectMapper objectMapper;
     private final MinIOService minIOService;
 
-    @Transactional
     public ResponseEntity<OperationInfo> importMarines(MultipartFile file) {
 
         if (file.isEmpty()) {
@@ -61,24 +58,9 @@ public class ImportService {
         try {
             String fileContent = new String(file.getBytes());
             ListMarinesDto listMarinesDto = objectMapper.readValue(fileContent, ListMarinesDto.class);
-
-            if (listMarinesDto.getListMarines().isEmpty()) {
-                return ResponseEntity.badRequest().body(new OperationInfo(false,
-                        "File contains no space marines"));
-            }
-
-            for (SpaceMarineDTO dto : listMarinesDto.getListMarines()) {
-                spaceMarineService.createSpaceMarine(dto);
-            }
-            createImportOperation(
-                    ImportOperation.builder()
-                            .creator(creator)
-                            .status(ImportStatus.SUCCESS)
-                            .filename(filename)
-                            .counter(listMarinesDto.getListMarines().size())
-                            .build()
-            );
+            spaceMarineService.saveMarines(listMarinesDto, creator, filename);
         } catch (IllegalArgumentException | IOException e) {
+            minIOService.removeFile(filename);
             createImportOperation(
                     ImportOperation.builder()
                             .creator(creator)
@@ -86,7 +68,6 @@ public class ImportService {
                             .counter(null)
                             .build()
             );
-            minIOService.removeFile(filename);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new OperationInfo(false,
                             "Error appeared while adding space marines to database"));
